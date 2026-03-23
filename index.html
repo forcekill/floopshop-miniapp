@@ -786,18 +786,18 @@ function submitOrder() {
     alert('Заполните имя и контакт');
     return;
   }
-  // Send to Telegram bot
   const p = currentProduct;
-  const msg = `🛍 Новая заявка!\n\n👟 ${p.name}\n📏 Размер: ${p.size}\n💰 ${Number(p.price).toLocaleString('ru')} ₽\n\n👤 ${name}\n📱 ${contact}\n\n💬 ${document.getElementById('orderComment').value || '—'}`;
-
-  // Replace with your bot token and chat ID
-  const BOT_TOKEN = 'YOUR_BOT_TOKEN';
-  const CHAT_ID = 'YOUR_CHAT_ID';
-
-  fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+  fetch('https://floopshop-bot-production.up.railway.app/order', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: CHAT_ID, text: msg })
+    body: JSON.stringify({
+      name: name,
+      contact: contact,
+      comment: document.getElementById('orderComment').value || '—',
+      product: p.name,
+      size: p.size,
+      price: Number(p.price).toLocaleString('ru')
+    })
   }).catch(() => {});
 
   renderModal(false, true);
