@@ -9,524 +9,132 @@
   :root {
     --black: #0a0a0a;
     --white: #f5f5f0;
-    --accent: #e8ff00;
+    --red: #e63946;
     --gray: #1a1a1a;
     --gray2: #2a2a2a;
     --text-muted: #888;
     --card-bg: #141414;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { background: var(--black); color: var(--white); font-family: 'Manrope', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'Manrope', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+  .header { position: sticky; top: 0; z-index: 100; background: var(--black); border-bottom: 1px solid #1e1e1e; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 3px; }
+  .logo-floop { color: var(--red); }
+  .logo-shop { color: var(--white); }
+  .cart-btn { width: 40px; height: 40px; background: var(--gray2); border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--white); font-size: 20px; position: relative; }
+  .cart-count { position: absolute; top: -2px; right: -2px; background: var(--red); color: white; font-size: 10px; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: none; align-items: center; justify-content: center; }
+  .cart-count.visible { display: flex; }
 
-  /* HEADER */
-  .header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--black);
-    border-bottom: 1px solid #1e1e1e;
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: 3px;
-    color: var(--white);
-  }
-
-  .logo span { color: var(--accent); }
-
-  .cart-btn {
-    width: 40px; height: 40px;
-    background: var(--gray2);
-    border: none;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    color: var(--white);
-    font-size: 18px;
-    position: relative;
-  }
-
-  .cart-count {
-    position: absolute;
-    top: -2px; right: -2px;
-    background: var(--accent);
-    color: var(--black);
-    font-size: 10px;
-    font-weight: 700;
-    width: 16px; height: 16px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    display: none;
-  }
-
-  /* SEARCH */
-  .search-wrap {
-    padding: 12px 16px;
-    background: var(--black);
-  }
-
-  .search-input {
-    width: 100%;
-    background: var(--gray);
-    border: 1px solid #222;
-    border-radius: 12px;
-    padding: 10px 16px 10px 40px;
-    color: var(--white);
-    font-family: 'Manrope', sans-serif;
-    font-size: 14px;
-    outline: none;
-  }
-
+  .search-wrap { padding: 12px 16px 8px; background: var(--black); display: flex; gap: 8px; align-items: center; }
+  .search-wrap-inner { position: relative; flex: 1; }
+  .search-input { width: 100%; background: var(--gray); border: 1px solid #222; border-radius: 12px; padding: 10px 16px 10px 40px; color: var(--white); font-family: 'Manrope', sans-serif; font-size: 14px; outline: none; }
   .search-input::placeholder { color: var(--text-muted); }
   .search-input:focus { border-color: #444; }
+  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 16px; pointer-events: none; }
+  .brand-select { background: var(--gray); border: 1px solid #222; border-radius: 12px; padding: 10px 12px; color: var(--white); font-family: 'Manrope', sans-serif; font-size: 13px; outline: none; cursor: pointer; flex-shrink: 0; max-width: 130px; }
+  .brand-select option { background: #1a1a1a; }
 
-  .search-wrap-inner {
-    position: relative;
-  }
-
-  .search-icon {
-    position: absolute;
-    left: 12px; top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-muted);
-    font-size: 16px;
-    pointer-events: none;
-  }
-
-  /* FILTERS */
-  .filters {
-    padding: 8px 0 8px 16px;
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
+  .filters { padding: 8px 0 8px 16px; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
   .filters::-webkit-scrollbar { display: none; }
+  .filter-btn { flex-shrink: 0; background: var(--gray); border: 1px solid #222; border-radius: 20px; padding: 6px 14px; color: var(--text-muted); font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .filter-btn.active { background: var(--white); border-color: var(--white); color: var(--black); }
 
-  .filter-btn {
-    flex-shrink: 0;
-    background: var(--gray);
-    border: 1px solid #222;
-    border-radius: 20px;
-    padding: 6px 14px;
-    color: var(--text-muted);
-    font-family: 'Manrope', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
+  .stats { padding: 6px 16px 10px; font-size: 12px; color: var(--text-muted); }
 
-  .filter-btn.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--black);
-  }
-
-  /* STATS */
-  .stats {
-    padding: 6px 16px 10px;
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-
-  /* GRID */
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    padding: 0 10px 100px;
-  }
-
-  /* CARD */
-  .card {
-    background: var(--card-bg);
-    border-radius: 16px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.2s;
-    border: 1px solid #1e1e1e;
-    animation: fadeIn 0.3s ease forwards;
-    opacity: 0;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 10px 100px; }
+  .card { background: var(--card-bg); border-radius: 16px; overflow: hidden; cursor: pointer; transition: transform 0.2s; border: 1px solid #1e1e1e; animation: fadeIn 0.3s ease forwards; opacity: 0; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   .card:active { transform: scale(0.97); }
+  .card-img-wrap { position: relative; }
+  .card-img { width: 100%; aspect-ratio: 1; object-fit: cover; background: var(--gray); display: block; }
+  .card-img-placeholder { width: 100%; aspect-ratio: 1; background: var(--gray); display: flex; align-items: center; justify-content: center; font-size: 32px; }
+  .sale-badge { position: absolute; top: 8px; left: 8px; background: var(--red); color: white; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 6px; }
+  .card-body { padding: 10px; }
+  .card-brand { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+  .card-name { font-size: 13px; font-weight: 600; color: var(--white); margin: 3px 0; line-height: 1.3; }
+  .card-condition { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+  .card-sizes { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .size-pill { font-size: 10px; background: var(--gray2); color: var(--text-muted); padding: 2px 6px; border-radius: 5px; font-weight: 600; }
+  .card-meta { display: flex; align-items: baseline; gap: 4px; margin-top: 6px; }
+  .card-price { font-size: 15px; font-weight: 700; color: var(--white); }
+  .card-price.sale { color: var(--red); }
+  .card-price-old { font-size: 11px; color: var(--text-muted); text-decoration: line-through; }
 
-  .card-img {
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    background: var(--gray);
-    display: block;
-  }
-
-  .card-img-placeholder {
-    width: 100%;
-    aspect-ratio: 1;
-    background: var(--gray);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
-  }
-
-  .card-body {
-    padding: 10px;
-  }
-
-  .card-brand {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .card-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--white);
-    margin: 3px 0;
-    line-height: 1.3;
-  }
-
-  .card-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 6px;
-  }
-
-  .card-price {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--accent);
-  }
-
-  .card-size {
-    font-size: 11px;
-    background: var(--gray2);
-    color: var(--text-muted);
-    padding: 2px 7px;
-    border-radius: 6px;
-    font-weight: 600;
-  }
-
-  .card-condition {
-    font-size: 10px;
-    color: var(--text-muted);
-    margin-top: 3px;
-  }
-
-  /* MODAL */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    z-index: 200;
-    display: flex;
-    align-items: flex-end;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-  }
-
-  .modal-overlay.open {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .modal {
-    background: var(--gray);
-    border-radius: 24px 24px 0 0;
-    width: 100%;
-    max-height: 92vh;
-    overflow-y: auto;
-    transform: translateY(100%);
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    padding-bottom: 40px;
-  }
-
-  .modal-overlay.open .modal {
-    transform: translateY(0);
-  }
-
-  .modal-handle {
-    width: 40px; height: 4px;
-    background: #444;
-    border-radius: 2px;
-    margin: 12px auto 0;
-  }
-
-  .modal-close {
-    position: absolute;
-    top: 16px; right: 16px;
-    width: 32px; height: 32px;
-    background: var(--gray2);
-    border: none;
-    border-radius: 50%;
-    color: var(--white);
-    font-size: 16px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-  }
-
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; display: flex; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal { background: var(--gray); border-radius: 24px 24px 0 0; width: 100%; max-height: 92vh; overflow-y: auto; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); padding-bottom: 40px; }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal-handle { width: 40px; height: 4px; background: #444; border-radius: 2px; margin: 12px auto 0; }
+  .modal-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; background: var(--gray2); border: none; border-radius: 50%; color: var(--white); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
   .modal-header { position: relative; padding: 8px 0 0; }
 
-  /* PHOTO SLIDER */
-  .slider {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    margin-top: 12px;
-  }
+  .slider { position: relative; width: 100%; overflow: hidden; margin-top: 12px; }
+  .slider-track { display: flex; transition: transform 0.3s ease; }
+  .slider-img { min-width: 100%; aspect-ratio: 1; object-fit: cover; background: var(--black); }
+  .slider-dots { display: flex; justify-content: center; gap: 5px; padding: 10px 0; }
+  .dot { width: 5px; height: 5px; border-radius: 50%; background: #444; transition: all 0.2s; }
+  .dot.active { background: var(--white); width: 16px; border-radius: 3px; }
 
-  .slider-track {
-    display: flex;
-    transition: transform 0.3s ease;
-  }
-
-  .slider-img {
-    min-width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    background: var(--black);
-  }
-
-  .slider-dots {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    padding: 10px 0;
-  }
-
-  .dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: #444;
-    transition: all 0.2s;
-  }
-  .dot.active { background: var(--accent); width: 16px; border-radius: 3px; }
-
-  /* MODAL CONTENT */
   .modal-content { padding: 16px 20px; }
+  .modal-brand { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); }
+  .modal-name { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 1px; color: var(--white); margin: 4px 0 8px; line-height: 1.1; }
+  .modal-tags { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .tag { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 8px; background: var(--gray2); color: var(--text-muted); }
+  .tag.accent { background: rgba(255,255,255,0.1); color: var(--white); }
+  .modal-desc { font-size: 14px; line-height: 1.6; color: #aaa; margin-bottom: 16px; }
 
-  .modal-brand {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--text-muted);
-  }
+  .size-selector { margin-bottom: 16px; }
+  .size-selector-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 8px; }
+  .size-buttons { display: flex; flex-wrap: wrap; gap: 6px; }
+  .size-btn { padding: 6px 14px; border-radius: 8px; border: 1px solid #333; background: var(--gray2); color: var(--text-muted); font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .size-btn.selected { background: var(--white); border-color: var(--white); color: var(--black); }
 
-  .modal-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: 1px;
-    color: var(--white);
-    margin: 4px 0 8px;
-    line-height: 1.1;
-  }
+  .modal-price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 16px; }
+  .modal-price { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--white); letter-spacing: 1px; }
+  .modal-price.sale { color: var(--red); }
+  .modal-price-old { font-size: 18px; color: var(--text-muted); text-decoration: line-through; }
 
-  .modal-tags {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 14px;
-    flex-wrap: wrap;
-  }
-
-  .tag {
-    font-size: 12px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 8px;
-    background: var(--gray2);
-    color: var(--text-muted);
-  }
-
-  .tag.accent { background: rgba(232,255,0,0.1); color: var(--accent); }
-
-  .modal-desc {
-    font-size: 14px;
-    line-height: 1.6;
-    color: #aaa;
-    margin-bottom: 20px;
-  }
-
-  .modal-price-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-  }
-
-  .modal-price {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 36px;
-    color: var(--accent);
-    letter-spacing: 1px;
-  }
-
-  .order-btn {
-    width: 100%;
-    background: var(--accent);
-    color: var(--black);
-    border: none;
-    border-radius: 14px;
-    padding: 16px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: opacity 0.2s;
-  }
-
+  .modal-btns { display: flex; gap: 10px; }
+  .order-btn { flex: 1; background: var(--white); color: var(--black); border: none; border-radius: 14px; padding: 16px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; cursor: pointer; transition: opacity 0.2s; }
   .order-btn:active { opacity: 0.8; }
+  .cart-add-btn { width: 54px; height: 54px; background: var(--gray2); border: 1px solid #333; border-radius: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 22px; transition: all 0.2s; flex-shrink: 0; }
+  .cart-add-btn.added { background: var(--red); border-color: var(--red); }
 
-  /* ORDER FORM */
   .order-form { padding: 0 20px; }
-  .order-form h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 1px;
-    margin-bottom: 14px;
-    color: var(--white);
-  }
-
+  .order-form h3 { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; margin-bottom: 14px; color: var(--white); }
   .form-group { margin-bottom: 12px; }
-
-  .form-label {
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-muted);
-    margin-bottom: 6px;
-    display: block;
-  }
-
-  .form-input, .form-textarea {
-    width: 100%;
-    background: var(--gray2);
-    border: 1px solid #333;
-    border-radius: 10px;
-    padding: 12px 14px;
-    color: var(--white);
-    font-family: 'Manrope', sans-serif;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .form-input:focus, .form-textarea:focus { border-color: var(--accent); }
+  .form-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 6px; display: block; }
+  .form-input, .form-textarea { width: 100%; background: var(--gray2); border: 1px solid #333; border-radius: 10px; padding: 12px 14px; color: var(--white); font-family: 'Manrope', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; }
+  .form-input:focus, .form-textarea:focus { border-color: var(--white); }
   .form-textarea { resize: none; height: 80px; }
+  .submit-btn { width: 100%; background: var(--white); color: var(--black); border: none; border-radius: 14px; padding: 16px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; cursor: pointer; margin-top: 8px; }
 
-  .submit-btn {
-    width: 100%;
-    background: var(--accent);
-    color: var(--black);
-    border: none;
-    border-radius: 14px;
-    padding: 16px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px;
-    letter-spacing: 2px;
-    cursor: pointer;
-    margin-top: 8px;
-    transition: opacity 0.2s;
-  }
+  .cart-items { padding: 0 20px; }
+  .cart-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #222; }
+  .cart-item-img { width: 56px; height: 56px; border-radius: 10px; object-fit: cover; background: var(--gray2); flex-shrink: 0; }
+  .cart-item-info { flex: 1; }
+  .cart-item-name { font-size: 13px; font-weight: 600; color: var(--white); }
+  .cart-item-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .cart-item-price { font-size: 14px; font-weight: 700; color: var(--white); margin-top: 4px; }
+  .cart-item-remove { width: 28px; height: 28px; background: var(--gray2); border: none; border-radius: 50%; color: var(--text-muted); font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .cart-empty { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+  .cart-empty-icon { font-size: 48px; margin-bottom: 12px; }
+  .cart-total { padding: 16px 20px 0; }
+  .cart-total-text { font-size: 14px; color: var(--text-muted); margin-bottom: 4px; }
+  .cart-total-price { font-family: 'Bebas Neue', sans-serif; font-size: 30px; color: var(--white); margin-bottom: 16px; }
 
-  .submit-btn:active { opacity: 0.8; }
-
-  /* LOADING */
-  .loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 60vh;
-    gap: 16px;
-  }
-
-  .spinner {
-    width: 40px; height: 40px;
-    border: 3px solid #222;
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .loading-text {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px;
-    letter-spacing: 2px;
-    color: var(--text-muted);
-  }
-
-  /* SUCCESS */
-  .success-screen {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-    text-align: center;
-    gap: 12px;
-  }
-
+  .success-screen { display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; text-align: center; gap: 12px; }
   .success-icon { font-size: 56px; }
-
-  .success-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: 2px;
-    color: var(--accent);
-  }
-
+  .success-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; color: var(--white); }
   .success-text { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
+  .back-btn { margin-top: 8px; background: var(--gray2); color: var(--white); border: none; border-radius: 12px; padding: 12px 24px; font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; }
 
-  .back-btn {
-    margin-top: 8px;
-    background: var(--gray2);
-    color: var(--white);
-    border: none;
-    border-radius: 12px;
-    padding: 12px 24px;
-    font-family: 'Manrope', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  /* EMPTY */
-  .empty {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-muted);
-    grid-column: 1/-1;
-  }
+  .loading { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 16px; }
+  .spinner { width: 40px; height: 40px; border: 3px solid #222; border-top-color: var(--white); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--text-muted); }
+  .empty { text-align: center; padding: 60px 20px; color: var(--text-muted); grid-column: 1/-1; }
   .empty-icon { font-size: 48px; margin-bottom: 12px; }
   .empty-text { font-size: 14px; }
 </style>
@@ -534,34 +142,32 @@
 <body>
 
 <div class="header">
-  <div class="logo">FLOOP<span>SHOP</span></div>
-  <button class="cart-btn" onclick="scrollToTop()">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
-    </svg>
+  <div class="logo"><span class="logo-floop">FLOOP</span><span class="logo-shop">SHOP</span></div>
+  <button class="cart-btn" onclick="openCart()">
+    🛒
+    <div class="cart-count" id="cartCount">0</div>
   </button>
 </div>
 
 <div class="search-wrap">
   <div class="search-wrap-inner">
     <span class="search-icon">🔍</span>
-    <input class="search-input" type="text" placeholder="Поиск по названию или бренду..." id="searchInput" oninput="filterProducts()">
+    <input class="search-input" type="text" placeholder="Поиск..." id="searchInput" oninput="filterProducts()">
   </div>
+  <select class="brand-select" id="brandSelect" onchange="filterProducts()">
+    <option value="">Все бренды</option>
+  </select>
 </div>
 
 <div class="filters" id="filtersRow"></div>
 <div class="stats" id="stats"></div>
-
 <div id="mainContent">
-  <div class="loading">
-    <div class="spinner"></div>
-    <div class="loading-text">ЗАГРУЖАЕМ КАТАЛОГ</div>
-  </div>
+  <div class="loading"><div class="spinner"></div><div class="loading-text">ЗАГРУЖАЕМ КАТАЛОГ</div></div>
 </div>
 
-<!-- MODAL -->
+<!-- PRODUCT MODAL -->
 <div class="modal-overlay" id="modal" onclick="closeModal(event)">
-  <div class="modal" id="modalInner">
+  <div class="modal">
     <div class="modal-header">
       <div class="modal-handle"></div>
       <button class="modal-close" onclick="closeModalDirect()">✕</button>
@@ -570,116 +176,116 @@
   </div>
 </div>
 
+<!-- CART MODAL -->
+<div class="modal-overlay" id="cartModal" onclick="closeCartModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-handle"></div>
+      <button class="modal-close" onclick="closeCartDirect()">✕</button>
+    </div>
+    <div id="cartBody"></div>
+  </div>
+</div>
+
 <script>
 const SHEET_ID = '1kPm7LEZYEHJLyA_UUDQ_Lh3Z4nhXhnNHWLR5wSz7D7U';
 const SHEET_NAME = 'Каталог';
-const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+const WEBHOOK = 'https://floopshop-bot-production.up.railway.app/order';
 
-let allProducts = [];
-let filtered = [];
-let activeFilter = 'Все';
-let currentProduct = null;
-let sliderIndex = 0;
+let allProducts = [], groupedProducts = [], filtered = [];
+let activeFilter = 'Все', activeBrand = '';
+let currentGroup = null, selectedSize = null, sliderIndex = 0;
+let cart = [];
 
-// LOAD DATA
 async function loadData() {
   try {
-    const res = await fetch(URL);
+    const res = await fetch(SHEET_URL);
     const text = await res.text();
     const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
     const rows = json.table.rows;
     const cols = json.table.cols.map(c => c.label);
 
     allProducts = rows.map(row => {
-      const get = (label) => {
-        const i = cols.indexOf(label);
-        return i >= 0 && row.c[i] ? row.c[i].v : '';
-      };
+      const get = l => { const i = cols.indexOf(l); return i >= 0 && row.c[i] ? row.c[i].v : ''; };
       return {
-        id: get('ID'),
-        category: get('Категория'),
-        name: get('Название'),
-        brand: get('Бренд'),
-        size: get('Размер'),
-        condition: get('Состояние'),
-        description: get('Описание'),
-        price: get('Цена'),
-        photos: [
-          get('Главное фото/1 фото'),
-          get('Слева-направо/2 фото'),
-          get('Фото спереди/3 фото'),
-          get('Фото сзади/4 фото'),
-          get('Фото подошвы(сверху)/5 фото'),
-        ].filter(Boolean),
+        category: get('Категория'), name: get('Название'), brand: get('Бренд'),
+        size: String(get('Размер')), condition: get('Состояние'),
+        description: get('Описание'), price: get('Цена'), salePrice: get('Скидка') || '',
+        photos: [get('Главное фото/1 фото'), get('Слева-направо/2 фото'), get('Фото спереди/3 фото'), get('Фото сзади/4 фото'), get('Фото подошвы(сверху)/5 фото')].filter(Boolean),
         in_stock: get('В наличии') !== false,
       };
     }).filter(p => p.name && p.in_stock !== false);
 
+    const groups = {};
+    allProducts.forEach(p => {
+      if (!groups[p.name]) groups[p.name] = { name: p.name, brand: p.brand, category: p.category, condition: p.condition, description: p.description, photos: p.photos, price: p.price, salePrice: p.salePrice, sizes: [] };
+      groups[p.name].sizes.push({ size: p.size, price: p.price, salePrice: p.salePrice });
+    });
+    groupedProducts = Object.values(groups);
+
     renderFilters();
+    renderBrands();
     filterProducts();
-  } catch (e) {
-    document.getElementById('mainContent').innerHTML = `
-      <div class="loading"><div class="loading-text">ОШИБКА ЗАГРУЗКИ</div></div>`;
+  } catch(e) {
+    document.getElementById('mainContent').innerHTML = `<div class="loading"><div class="loading-text">ОШИБКА ЗАГРУЗКИ</div></div>`;
   }
 }
 
-// FILTERS
+function renderBrands() {
+  const brands = [...new Set(allProducts.map(p => p.brand).filter(Boolean))].sort();
+  document.getElementById('brandSelect').innerHTML = `<option value="">Все бренды</option>` + brands.map(b => `<option value="${b}">${b}</option>`).join('');
+}
+
 function renderFilters() {
   const cats = ['Все', ...new Set(allProducts.map(p => p.category).filter(Boolean))];
-  const row = document.getElementById('filtersRow');
-  row.innerHTML = cats.map(c => `
-    <button class="filter-btn ${c === activeFilter ? 'active' : ''}" onclick="setFilter('${c}')">${c}</button>
-  `).join('');
+  document.getElementById('filtersRow').innerHTML = cats.map(c => `<button class="filter-btn ${c === activeFilter ? 'active' : ''}" onclick="setFilter('${c}')">${c}</button>`).join('');
 }
 
-function setFilter(cat) {
-  activeFilter = cat;
-  renderFilters();
-  filterProducts();
-}
+function setFilter(cat) { activeFilter = cat; renderFilters(); filterProducts(); }
 
-// SEARCH + FILTER
 function filterProducts() {
   const q = document.getElementById('searchInput').value.toLowerCase();
-  filtered = allProducts.filter(p => {
-    const matchCat = activeFilter === 'Все' || p.category === activeFilter;
-    const matchSearch = !q || p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q);
-    return matchCat && matchSearch;
-  });
+  activeBrand = document.getElementById('brandSelect').value;
+  filtered = groupedProducts.filter(p =>
+    (activeFilter === 'Все' || p.category === activeFilter) &&
+    (!activeBrand || p.brand === activeBrand) &&
+    (!q || p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q))
+  );
   renderGrid();
 }
 
-// GRID
 function renderGrid() {
-  const container = document.getElementById('mainContent');
   document.getElementById('stats').textContent = `${filtered.length} товаров`;
-
   if (!filtered.length) {
-    container.innerHTML = `<div class="grid"><div class="empty"><div class="empty-icon">👟</div><div class="empty-text">Ничего не найдено</div></div></div>`;
+    document.getElementById('mainContent').innerHTML = `<div class="grid"><div class="empty"><div class="empty-icon">👟</div><div class="empty-text">Ничего не найдено</div></div></div>`;
     return;
   }
-
-  container.innerHTML = `<div class="grid">${filtered.map((p, i) => `
-    <div class="card" style="animation-delay:${i * 0.04}s" onclick="openModal(${allProducts.indexOf(p)})">
-      ${p.photos[0]
-        ? `<img class="card-img" src="${p.photos[0]}" loading="lazy" alt="${p.name}" onerror="this.parentNode.querySelector('.card-img-placeholder') && (this.style.display='none')">`
-        : `<div class="card-img-placeholder">👟</div>`}
+  document.getElementById('mainContent').innerHTML = `<div class="grid">${filtered.map((p, i) => {
+    const hasSale = p.salePrice && Number(p.salePrice) > 0;
+    const displayPrice = hasSale ? Number(p.salePrice) : Number(p.price);
+    return `<div class="card" style="animation-delay:${i*0.04}s" onclick="openModal(${groupedProducts.indexOf(p)})">
+      <div class="card-img-wrap">
+        ${p.photos[0] ? `<img class="card-img" src="${p.photos[0]}" loading="lazy" alt="${p.name}">` : `<div class="card-img-placeholder">👟</div>`}
+        ${hasSale ? `<div class="sale-badge">SALE</div>` : ''}
+      </div>
       <div class="card-body">
         <div class="card-brand">${p.brand}</div>
         <div class="card-name">${p.name}</div>
         <div class="card-condition">${p.condition}</div>
+        <div class="card-sizes">${p.sizes.map(s => `<span class="size-pill">${s.size}</span>`).join('')}</div>
         <div class="card-meta">
-          <div class="card-price">${Number(p.price).toLocaleString('ru')} ₽</div>
-          <div class="card-size">${p.size}</div>
+          <span class="card-price ${hasSale ? 'sale' : ''}">${displayPrice.toLocaleString('ru')} ₽</span>
+          ${hasSale ? `<span class="card-price-old">${Number(p.price).toLocaleString('ru')} ₽</span>` : ''}
         </div>
       </div>
-    </div>
-  `).join('')}</div>`;
+    </div>`;
+  }).join('')}</div>`;
 }
 
-// MODAL
 function openModal(index) {
-  currentProduct = allProducts[index];
+  currentGroup = groupedProducts[index];
+  selectedSize = currentGroup.sizes.length === 1 ? currentGroup.sizes[0] : null;
   sliderIndex = 0;
   renderModal();
   document.getElementById('modal').classList.add('open');
@@ -687,126 +293,153 @@ function openModal(index) {
 }
 
 function renderModal(showForm = false, showSuccess = false) {
-  const p = currentProduct;
-  const photos = p.photos;
-
+  const p = currentGroup;
+  const hasSale = p.salePrice && Number(p.salePrice) > 0;
+  const inCart = cart.some(c => c.group.name === p.name && c.size === (selectedSize?.size || ''));
   document.getElementById('modalBody').innerHTML = `
-    ${photos.length > 0 ? `
-    <div class="slider">
-      <div class="slider-track" id="sliderTrack">
-        ${photos.map(src => `<img class="slider-img" src="${src}" alt="${p.name}">`).join('')}
-      </div>
-    </div>
-    <div class="slider-dots" id="sliderDots">
-      ${photos.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}" onclick="goSlide(${i})"></div>`).join('')}
-    </div>
-    ` : ''}
-
+    ${p.photos.length > 0 ? `
+    <div class="slider"><div class="slider-track" id="sliderTrack">${p.photos.map(src => `<img class="slider-img" src="${src}" alt="${p.name}">`).join('')}</div></div>
+    <div class="slider-dots">${p.photos.map((_, i) => `<div class="dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>`).join('')}</div>` : ''}
     <div class="modal-content">
       <div class="modal-brand">${p.brand}</div>
       <div class="modal-name">${p.name}</div>
-      <div class="modal-tags">
-        <span class="tag">${p.size}</span>
-        <span class="tag">${p.condition}</span>
-        <span class="tag accent">${p.category}</span>
-      </div>
+      <div class="modal-tags"><span class="tag">${p.condition}</span><span class="tag accent">${p.category}</span></div>
       ${p.description ? `<div class="modal-desc">${p.description}</div>` : ''}
+      ${p.sizes.length > 1 ? `
+      <div class="size-selector">
+        <div class="size-selector-label">Выберите размер</div>
+        <div class="size-buttons">${p.sizes.map(s => `<button class="size-btn ${selectedSize?.size===s.size?'selected':''}" onclick="selectSize('${s.size}')">${s.size}</button>`).join('')}</div>
+      </div>` : `<div style="margin-bottom:12px"><span class="tag">Размер: ${p.sizes[0]?.size}</span></div>`}
       <div class="modal-price-row">
-        <div class="modal-price">${Number(p.price).toLocaleString('ru')} ₽</div>
+        <div class="modal-price ${hasSale?'sale':''}">${hasSale ? Number(p.salePrice).toLocaleString('ru') : Number(p.price).toLocaleString('ru')} ₽</div>
+        ${hasSale ? `<div class="modal-price-old">${Number(p.price).toLocaleString('ru')} ₽</div>` : ''}
       </div>
-      <button class="order-btn" onclick="renderModal(true)">ОФОРМИТЬ ЗАЯВКУ</button>
+      <div class="modal-btns">
+        <button class="order-btn" onclick="renderModal(true)">ОФОРМИТЬ ЗАЯВКУ</button>
+        <button class="cart-add-btn ${inCart?'added':''}" onclick="toggleCart()">${inCart?'✓':'🛒'}</button>
+      </div>
     </div>
-
-    <div class="order-form" id="orderForm" style="display:${showForm ? 'block' : 'none'}">
+    <div class="order-form" id="orderForm" style="display:${showForm?'block':'none'}">
       <h3>ОСТАВИТЬ ЗАЯВКУ</h3>
-      <div class="form-group">
-        <label class="form-label">Имя</label>
-        <input class="form-input" id="orderName" placeholder="Как к вам обращаться?">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Ваш Telegram</label>
-        <input class="form-input" id="orderContact" placeholder="@username">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Комментарий</label>
-        <textarea class="form-textarea" id="orderComment" placeholder="Вопросы, пожелания..."></textarea>
-      </div>
+      <div class="form-group"><label class="form-label">Имя</label><input class="form-input" id="orderName" placeholder="Как к вам обращаться?"></div>
+      <div class="form-group"><label class="form-label">Ваш Telegram</label><input class="form-input" id="orderContact" placeholder="@username"></div>
+      <div class="form-group"><label class="form-label">Комментарий</label><textarea class="form-textarea" id="orderComment" placeholder="Вопросы, пожелания..."></textarea></div>
       <button class="submit-btn" onclick="submitOrder()">ОТПРАВИТЬ ЗАЯВКУ</button>
     </div>
-
-    <div class="success-screen" id="successScreen" style="display:${showSuccess ? 'flex' : 'none'}">
+    <div class="success-screen" id="successScreen" style="display:${showSuccess?'flex':'none'}">
       <div class="success-icon">✅</div>
       <div class="success-title">ЗАЯВКА ОТПРАВЛЕНА!</div>
       <div class="success-text">Мы свяжемся с вами в ближайшее время через Telegram</div>
       <button class="back-btn" onclick="closeModalDirect()">Закрыть</button>
-    </div>
-  `;
+    </div>`;
+  if (showForm) setTimeout(() => document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth' }), 100);
+}
 
-  if (showForm) {
-    setTimeout(() => {
-      document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-  }
+function selectSize(size) { selectedSize = currentGroup.sizes.find(s => s.size === size); renderModal(); }
+
+function toggleCart() {
+  const p = currentGroup;
+  const size = selectedSize?.size || (p.sizes.length === 1 ? p.sizes[0].size : null);
+  if (!size) { alert('Выберите размер'); return; }
+  const idx = cart.findIndex(c => c.group.name === p.name && c.size === size);
+  if (idx >= 0) cart.splice(idx, 1);
+  else cart.push({ group: p, size, price: p.price, salePrice: p.salePrice });
+  updateCartCount();
+  renderModal();
+}
+
+function updateCartCount() {
+  const el = document.getElementById('cartCount');
+  el.textContent = cart.length;
+  el.classList.toggle('visible', cart.length > 0);
+}
+
+function openCart() {
+  renderCart();
+  document.getElementById('cartModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderCart(showForm = false, showSuccess = false) {
+  const total = cart.reduce((s, c) => s + (c.salePrice && Number(c.salePrice) > 0 ? Number(c.salePrice) : Number(c.price)), 0);
+  document.getElementById('cartBody').innerHTML = `
+    <div class="modal-content" style="padding-bottom:0"><div class="modal-name">КОРЗИНА${cart.length > 0 ? ` (${cart.length})` : ''}</div></div>
+    ${cart.length === 0 ? `<div class="cart-empty"><div class="cart-empty-icon">🛒</div><div>Корзина пуста</div></div>` : `
+    <div class="cart-items">${cart.map((c, i) => {
+      const price = c.salePrice && Number(c.salePrice) > 0 ? Number(c.salePrice) : Number(c.price);
+      return `<div class="cart-item">
+        ${c.group.photos[0] ? `<img class="cart-item-img" src="${c.group.photos[0]}" alt="">` : '<div class="cart-item-img"></div>'}
+        <div class="cart-item-info">
+          <div class="cart-item-name">${c.group.name}</div>
+          <div class="cart-item-meta">${c.group.brand} · Размер ${c.size}</div>
+          <div class="cart-item-price">${price.toLocaleString('ru')} ₽</div>
+        </div>
+        <button class="cart-item-remove" onclick="removeFromCart(${i})">✕</button>
+      </div>`;
+    }).join('')}</div>
+    <div class="cart-total"><div class="cart-total-text">Итого</div><div class="cart-total-price">${total.toLocaleString('ru')} ₽</div></div>`}
+    ${cart.length > 0 && !showForm && !showSuccess ? `<div style="padding:0 20px"><button class="order-btn" style="width:100%" onclick="renderCart(true)">ОФОРМИТЬ ВСЁ</button></div>` : ''}
+    <div class="order-form" id="cartOrderForm" style="display:${showForm?'block':'none'}">
+      <h3>ОСТАВИТЬ ЗАЯВКУ</h3>
+      <div class="form-group"><label class="form-label">Имя</label><input class="form-input" id="cartName" placeholder="Как к вам обращаться?"></div>
+      <div class="form-group"><label class="form-label">Ваш Telegram</label><input class="form-input" id="cartContact" placeholder="@username"></div>
+      <div class="form-group"><label class="form-label">Комментарий</label><textarea class="form-textarea" id="cartComment" placeholder="Вопросы, пожелания..."></textarea></div>
+      <button class="submit-btn" onclick="submitCartOrder()">ОТПРАВИТЬ ЗАЯВКУ</button>
+    </div>
+    <div class="success-screen" id="cartSuccess" style="display:${showSuccess?'flex':'none'}">
+      <div class="success-icon">✅</div><div class="success-title">ЗАЯВКА ОТПРАВЛЕНА!</div>
+      <div class="success-text">Мы свяжемся с вами в ближайшее время через Telegram</div>
+      <button class="back-btn" onclick="closeCartDirect()">Закрыть</button>
+    </div>`;
+  if (showForm) setTimeout(() => document.getElementById('cartOrderForm').scrollIntoView({ behavior: 'smooth' }), 100);
+}
+
+function removeFromCart(i) { cart.splice(i, 1); updateCartCount(); renderCart(); }
+
+function closeCartModal(e) { if (e.target === document.getElementById('cartModal')) closeCartDirect(); }
+function closeCartDirect() { document.getElementById('cartModal').classList.remove('open'); document.body.style.overflow = ''; }
+
+function submitCartOrder() {
+  const name = document.getElementById('cartName').value.trim();
+  const contact = document.getElementById('cartContact').value.trim();
+  if (!name || !contact) { alert('Заполните имя и контакт'); return; }
+  const username = contact.replace('@', '').trim();
+  const items = cart.map(c => { const p = c.salePrice && Number(c.salePrice) > 0 ? Number(c.salePrice) : Number(c.price); return `• ${c.group.name} (${c.size}) — ${p.toLocaleString('ru')} ₽`; }).join('\n');
+  const total = cart.reduce((s, c) => s + (c.salePrice && Number(c.salePrice) > 0 ? Number(c.salePrice) : Number(c.price)), 0);
+  fetch(WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, contact, username, comment: document.getElementById('cartComment').value || '—', product: `КОРЗИНА (${cart.length} товара):\n${items}`, size: '—', price: total.toLocaleString('ru') }) }).catch(() => {});
+  cart = []; updateCartCount(); renderCart(false, true);
 }
 
 function goSlide(i) {
   sliderIndex = i;
-  document.getElementById('sliderTrack').style.transform = `translateX(-${i * 100}%)`;
+  document.getElementById('sliderTrack').style.transform = `translateX(-${i*100}%)`;
   document.querySelectorAll('.dot').forEach((d, j) => d.classList.toggle('active', j === i));
 }
 
-// Touch swipe for slider
 let touchStartX = 0;
 document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
 document.addEventListener('touchend', e => {
-  if (!currentProduct) return;
+  if (!currentGroup) return;
   const diff = touchStartX - e.changedTouches[0].clientX;
-  const photos = currentProduct.photos;
   if (Math.abs(diff) > 50) {
-    if (diff > 0 && sliderIndex < photos.length - 1) goSlide(sliderIndex + 1);
+    if (diff > 0 && sliderIndex < currentGroup.photos.length - 1) goSlide(sliderIndex + 1);
     if (diff < 0 && sliderIndex > 0) goSlide(sliderIndex - 1);
   }
 });
 
-function closeModal(e) {
-  if (e.target === document.getElementById('modal')) closeModalDirect();
-}
+function closeModal(e) { if (e.target === document.getElementById('modal')) closeModalDirect(); }
+function closeModalDirect() { document.getElementById('modal').classList.remove('open'); document.body.style.overflow = ''; currentGroup = null; }
 
-function closeModalDirect() {
-  document.getElementById('modal').classList.remove('open');
-  document.body.style.overflow = '';
-  currentProduct = null;
-}
-
-// ORDER
 function submitOrder() {
   const name = document.getElementById('orderName').value.trim();
   const contact = document.getElementById('orderContact').value.trim();
-  if (!name || !contact) {
-    alert('Заполните имя и контакт');
-    return;
-  }
-  const p = currentProduct;
+  if (!name || !contact) { alert('Заполните имя и контакт'); return; }
+  const p = currentGroup;
+  const size = selectedSize?.size || p.sizes[0]?.size || '—';
+  const price = p.salePrice && Number(p.salePrice) > 0 ? Number(p.salePrice) : Number(p.price);
   const username = contact.replace('@', '').trim();
-  fetch('https://floopshop-bot-production.up.railway.app/order', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name: name,
-      contact: contact,
-      username: username,
-      comment: document.getElementById('orderComment').value || '—',
-      product: p.name,
-      size: p.size,
-      price: Number(p.price).toLocaleString('ru')
-    })
-  }).catch(() => {});
-
+  fetch(WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, contact, username, comment: document.getElementById('orderComment').value || '—', product: p.name, size, price: price.toLocaleString('ru') }) }).catch(() => {});
   renderModal(false, true);
-}
-
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 loadData();
