@@ -724,8 +724,8 @@ function renderModal(showForm = false, showSuccess = false) {
         <input class="form-input" id="orderName" placeholder="Как к вам обращаться?">
       </div>
       <div class="form-group">
-        <label class="form-label">Telegram или телефон</label>
-        <input class="form-input" id="orderContact" placeholder="@username или +7...">
+        <label class="form-label">Ваш Telegram</label>
+        <input class="form-input" id="orderContact" placeholder="@username">
       </div>
       <div class="form-group">
         <label class="form-label">Комментарий</label>
@@ -787,12 +787,14 @@ function submitOrder() {
     return;
   }
   const p = currentProduct;
+  const username = contact.replace('@', '').trim();
   fetch('https://floopshop-bot-production.up.railway.app/order', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       name: name,
       contact: contact,
+      username: username,
       comment: document.getElementById('orderComment').value || '—',
       product: p.name,
       size: p.size,
