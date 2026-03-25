@@ -68,24 +68,25 @@
   .card-img-placeholder { width: 100%; aspect-ratio: 1; background: var(--gray); display: flex; align-items: center; justify-content: center; font-size: 32px; }
   .sale-badge { position: absolute; top: 8px; left: 8px; background: var(--red); color: white; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 6px; }
   .card-body { padding: 10px; }
-  .card-price-top { display: flex; align-items: baseline; gap: 4px; margin-bottom: 5px; }
-  .card-price { font-size: 15px; font-weight: 700; color: var(--white); }
-  .card-price.sale { color: var(--red); }
-  .card-price-old { font-size: 11px; color: var(--text-muted); text-decoration: line-through; }
   .card-brand { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
   .card-name { font-size: 13px; font-weight: 600; color: var(--white); margin: 3px 0 1px; line-height: 1.3; }
   .card-colorway { font-size: 11px; color: var(--text-muted); margin-bottom: 3px; line-height: 1.3; }
   .card-condition { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
   .card-sizes { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
   .size-pill { font-size: 10px; background: var(--gray2); color: var(--text-muted); padding: 2px 6px; border-radius: 5px; font-weight: 600; }
+  .card-price-bottom { display: flex; align-items: baseline; gap: 4px; margin-top: 8px; }
+  .card-price { font-size: 15px; font-weight: 700; color: var(--white); }
+  .card-price.sale { color: var(--red); }
+  .card-price-old { font-size: 11px; color: var(--text-muted); text-decoration: line-through; }
 
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; display: flex; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
   .modal { background: var(--gray); border-radius: 24px 24px 0 0; width: 100%; max-height: 92vh; overflow-y: auto; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); padding-bottom: 40px; }
   .modal-overlay.open .modal { transform: translateY(0); }
   .modal-handle { width: 40px; height: 4px; background: #444; border-radius: 2px; margin: 12px auto 0; }
-  .modal-close { position: absolute; top: 12px; right: 16px; width: 32px; height: 32px; background: rgba(20,20,20,0.9); border: none; border-radius: 50%; color: var(--white); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; }
+  .modal-close { position: absolute; top: 8px; left: 8px; width: 32px; height: 32px; background: rgba(10,10,10,0.75); border: none; border-radius: 50%; color: var(--white); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 20; backdrop-filter: blur(4px); }
   .modal-header { position: relative; padding: 8px 0 0; }
+  .modal-price-below { display: flex; align-items: baseline; gap: 8px; padding: 14px 20px 0; }
 
   .slider { position: relative; width: 100%; overflow: hidden; margin-top: 12px; }
   .slider-track { display: flex; transition: transform 0.3s ease; }
@@ -166,7 +167,7 @@
 <div class="header">
   <div class="logo"><span class="logo-floop">FLOOP</span><span class="logo-shop">SHOP</span></div>
   <div class="header-btns">
-    <a class="channel-btn" href="https://t.me/floopname" target="_blank">✈️</a>
+    <a class="channel-btn" href="https://t.me/floopshop" target="_blank">✈️</a>
     <button class="cart-btn" onclick="openCart()">
       🛒
       <div class="cart-count" id="cartCount">0</div>
@@ -195,7 +196,7 @@
 
 <div class="filters-wrap">
   <div class="main-tabs">
-    <button class="tab-btn active" onclick="setTab('sneakers')">👟 Кроссовки</button>
+    <button class="tab-btn active" onclick="setTab('sneakers')">👟 Обувь</button>
     <button class="tab-btn" onclick="setTab('clothes')">👕 Одежда</button>
   </div>
   <div class="sub-filters" id="subFilters"></div>
@@ -211,7 +212,6 @@
   <div class="modal">
     <div class="modal-header">
       <div class="modal-handle"></div>
-      <button class="modal-close" onclick="closeModalDirect()">✕</button>
     </div>
     <div id="modalBody"></div>
   </div>
@@ -256,7 +256,7 @@ async function loadData() {
       const get = l => { const i = cols.indexOf(l); return i >= 0 && row.c[i] ? row.c[i].v : ''; };
       return {
         category: get('Категория'), name: get('Название'), brand: get('Бренд'),
-        size: String(get('Размер')), condition: get('Состояние'),
+        size: String(get('Размер') || '').trim(), condition: get('Состояние'),
         description: get('Описание'), price: get('Цена'), salePrice: get('Скидка') || '',
         colorway: get('Colorway') || '',
         article: get('Артикул') || '',
@@ -315,7 +315,7 @@ function renderSubFilters() {
 }
 
 function setSubFilter(val) {
-  activeSubFilter = val;
+  activeSubFilter = (activeSubFilter === val && val !== 'Все') ? 'Все' : val;
   renderSubFilters();
   filterProducts();
 }
@@ -381,15 +381,15 @@ function renderGrid() {
         ${hasSale ? `<div class="sale-badge">SALE</div>` : ''}
       </div>
       <div class="card-body">
-        <div class="card-price-top">
-          <span class="card-price ${hasSale ? 'sale' : ''}">${displayPrice.toLocaleString('ru')} ₽</span>
-          ${hasSale ? `<span class="card-price-old">${Number(p.price).toLocaleString('ru')} ₽</span>` : ''}
-        </div>
         <div class="card-brand">${p.brand}</div>
         <div class="card-name">${p.name}</div>
         ${p.colorway ? `<div class="card-colorway">${p.colorway}</div>` : ''}
         <div class="card-condition">${p.condition}</div>
         <div class="card-sizes">${p.sizes.map(s => `<span class="size-pill">${s.size}</span>`).join('')}</div>
+        <div class="card-price-bottom">
+          <span class="card-price ${hasSale ? 'sale' : ''}">${displayPrice.toLocaleString('ru')} ₽</span>
+          ${hasSale ? `<span class="card-price-old">${Number(p.price).toLocaleString('ru')} ₽</span>` : ''}
+        </div>
       </div>
     </div>`;
   }).join('')}</div>`;
@@ -412,10 +412,15 @@ function renderModal(showForm = false, showSuccess = false) {
   document.getElementById('modalBody').innerHTML = `
     ${photos.length > 0 ? `
     <div class="slider">
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
       <div class="slider-track" id="sliderTrack">${photos.map(src => `<img class="slider-img" src="${src}" alt="${p.name}">`).join('')}</div>
       ${photos.length > 1 ? `<div class="slider-tap-left" onclick="slidePrev()"></div><div class="slider-tap-right" onclick="slideNext()"></div>` : ''}
     </div>
-    <div class="slider-dots">${photos.map((_, i) => `<div class="dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>`).join('')}</div>` : ''}
+    <div class="slider-dots">${photos.map((_, i) => `<div class="dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>`).join('')}</div>` : '<button class="modal-close" style="position:relative;margin:8px 8px 0" onclick="closeModalDirect()">✕</button>'}
+    <div class="modal-price-below">
+      <div class="modal-price ${hasSale?'sale':''}">${hasSale ? Number(p.salePrice).toLocaleString('ru') : Number(p.price).toLocaleString('ru')} ₽</div>
+      ${hasSale ? `<div class="modal-price-old">${Number(p.price).toLocaleString('ru')} ₽</div>` : ''}
+    </div>
     <div class="modal-content">
       <div class="modal-brand">${p.brand}</div>
       <div class="modal-name">${p.name}</div>
@@ -428,10 +433,6 @@ function renderModal(showForm = false, showSuccess = false) {
         <div class="size-selector-label">Выберите размер</div>
         <div class="size-buttons">${p.sizes.map(s => `<button class="size-btn ${selectedSize?.size===s.size?'selected':''}" onclick="selectSize('${s.size}')">${s.size}</button>`).join('')}</div>
       </div>` : `<div style="margin-bottom:12px"><span class="tag">Размер: ${p.sizes[0]?.size}</span></div>`}
-      <div class="modal-price-row">
-        <div class="modal-price ${hasSale?'sale':''}">${hasSale ? Number(p.salePrice).toLocaleString('ru') : Number(p.price).toLocaleString('ru')} ₽</div>
-        ${hasSale ? `<div class="modal-price-old">${Number(p.price).toLocaleString('ru')} ₽</div>` : ''}
-      </div>
       <div class="modal-btns">
         <button class="order-btn" onclick="renderModal(true)">ОФОРМИТЬ ЗАЯВКУ</button>
         <button class="cart-add-btn ${inCart?'added':''}" onclick="toggleCart()">${inCart?'✓':'🛒'}</button>
