@@ -222,16 +222,18 @@ async function loadData() {
       };
     }).filter(p => p.name && p.in_stock !== false);
 
-    const groupKey = p.name + '||' + (p.colorway || '');
-    if (!groups[groupKey]) groups[groupKey] = {
-      name: p.name, brand: p.brand, category: p.category,
-      condition: p.condition, description: p.description,
-      photos: p.photos, price: p.price, salePrice: p.salePrice,
-      colorway: p.colorway,
-      article: p.article,
-      sizes: []
-    };
-    groups[groupKey].sizes.push({ size: p.size, price: p.price, salePrice: p.salePrice });
+    const groups = {};
+    allProducts.forEach(p => {
+      if (!groups[p.name]) groups[p.name] = {
+        name: p.name, brand: p.brand, category: p.category,
+        condition: p.condition, description: p.description,
+        photos: p.photos, price: p.price, salePrice: p.salePrice,
+        colorway: p.colorway,
+        article: p.article,
+        sizes: []
+      };
+      groups[p.name].sizes.push({ size: p.size, price: p.price, salePrice: p.salePrice });
+    });
     groupedProducts = Object.values(groups);
 
     renderFilters();
