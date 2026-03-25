@@ -22,23 +22,40 @@
   .logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 3px; }
   .logo-floop { color: var(--red); }
   .logo-shop { color: var(--white); }
+  .header-btns { display: flex; gap: 8px; align-items: center; }
+  .channel-btn { width: 40px; height: 40px; background: var(--gray2); border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--white); font-size: 18px; text-decoration: none; }
   .cart-btn { width: 40px; height: 40px; background: var(--gray2); border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--white); font-size: 20px; position: relative; }
   .cart-count { position: absolute; top: -2px; right: -2px; background: var(--red); color: white; font-size: 10px; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: none; align-items: center; justify-content: center; }
   .cart-count.visible { display: flex; }
 
-  .search-wrap { padding: 12px 16px 8px; background: var(--black); display: flex; gap: 8px; align-items: center; }
+  .search-wrap { padding: 12px 16px 8px; background: var(--black); display: flex; gap: 8px; align-items: center; position: relative; }
   .search-wrap-inner { position: relative; flex: 1; }
   .search-input { width: 100%; background: var(--gray); border: 1px solid #222; border-radius: 12px; padding: 10px 16px 10px 40px; color: var(--white); font-family: 'Manrope', sans-serif; font-size: 14px; outline: none; }
   .search-input::placeholder { color: var(--text-muted); }
   .search-input:focus { border-color: #444; }
   .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 16px; pointer-events: none; }
-  .brand-select { background: var(--gray); border: 1px solid #222; border-radius: 12px; padding: 10px 12px; color: var(--white); font-family: 'Manrope', sans-serif; font-size: 13px; outline: none; cursor: pointer; flex-shrink: 0; max-width: 130px; }
-  .brand-select option { background: #1a1a1a; }
 
-  .filters { padding: 8px 0 8px 16px; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
-  .filters::-webkit-scrollbar { display: none; }
+  .sort-btn { width: 42px; height: 42px; background: var(--gray); border: 1px solid #222; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; color: var(--text-muted); transition: all 0.2s; }
+  .sort-btn.active { border-color: var(--white); color: var(--white); }
+  .sort-btn svg { width: 18px; height: 18px; }
+
+  .sort-dropdown { position: absolute; right: 16px; top: 62px; background: var(--gray2); border: 1px solid #333; border-radius: 14px; z-index: 150; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.6); display: none; min-width: 210px; }
+  .sort-dropdown.open { display: block; }
+  .sort-option { padding: 13px 16px; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 10px; }
+  .sort-option:not(:last-child) { border-bottom: 1px solid #333; }
+  .sort-option:active { background: #333; }
+  .sort-option.selected { color: var(--white); }
+  .sort-option.selected::after { content: '✓'; margin-left: auto; color: var(--red); font-size: 12px; }
+
+  .filters-wrap { background: var(--black); }
+  .main-tabs { padding: 8px 16px 0; display: flex; gap: 8px; }
+  .tab-btn { flex: 1; background: var(--gray); border: 1px solid #222; border-radius: 12px; padding: 9px 0; color: var(--text-muted); font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; text-align: center; letter-spacing: 0.5px; }
+  .tab-btn.active { background: var(--white); border-color: var(--white); color: var(--black); }
+
+  .sub-filters { padding: 8px 0 8px 16px; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; min-height: 44px; }
+  .sub-filters::-webkit-scrollbar { display: none; }
   .filter-btn { flex-shrink: 0; background: var(--gray); border: 1px solid #222; border-radius: 20px; padding: 6px 14px; color: var(--text-muted); font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
-  .filter-btn.active { background: var(--white); border-color: var(--white); color: var(--black); }
+  .filter-btn.active { background: var(--red); border-color: var(--red); color: var(--white); }
 
   .stats { padding: 6px 16px 10px; font-size: 12px; color: var(--text-muted); }
 
@@ -51,28 +68,30 @@
   .card-img-placeholder { width: 100%; aspect-ratio: 1; background: var(--gray); display: flex; align-items: center; justify-content: center; font-size: 32px; }
   .sale-badge { position: absolute; top: 8px; left: 8px; background: var(--red); color: white; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 6px; }
   .card-body { padding: 10px; }
+  .card-price-top { display: flex; align-items: baseline; gap: 4px; margin-bottom: 5px; }
+  .card-price { font-size: 15px; font-weight: 700; color: var(--white); }
+  .card-price.sale { color: var(--red); }
+  .card-price-old { font-size: 11px; color: var(--text-muted); text-decoration: line-through; }
   .card-brand { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
   .card-name { font-size: 13px; font-weight: 600; color: var(--white); margin: 3px 0 1px; line-height: 1.3; }
   .card-colorway { font-size: 11px; color: var(--text-muted); margin-bottom: 3px; line-height: 1.3; }
   .card-condition { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
   .card-sizes { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
   .size-pill { font-size: 10px; background: var(--gray2); color: var(--text-muted); padding: 2px 6px; border-radius: 5px; font-weight: 600; }
-  .card-meta { display: flex; align-items: baseline; gap: 4px; margin-top: 6px; }
-  .card-price { font-size: 15px; font-weight: 700; color: var(--white); }
-  .card-price.sale { color: var(--red); }
-  .card-price-old { font-size: 11px; color: var(--text-muted); text-decoration: line-through; }
 
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; display: flex; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
   .modal { background: var(--gray); border-radius: 24px 24px 0 0; width: 100%; max-height: 92vh; overflow-y: auto; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); padding-bottom: 40px; }
   .modal-overlay.open .modal { transform: translateY(0); }
   .modal-handle { width: 40px; height: 4px; background: #444; border-radius: 2px; margin: 12px auto 0; }
-  .modal-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; background: var(--gray2); border: none; border-radius: 50%; color: var(--white); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .modal-close { position: absolute; top: 12px; right: 16px; width: 32px; height: 32px; background: rgba(20,20,20,0.9); border: none; border-radius: 50%; color: var(--white); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; }
   .modal-header { position: relative; padding: 8px 0 0; }
 
   .slider { position: relative; width: 100%; overflow: hidden; margin-top: 12px; }
   .slider-track { display: flex; transition: transform 0.3s ease; }
   .slider-img { min-width: 100%; aspect-ratio: 1; object-fit: cover; background: var(--black); }
+  .slider-tap-left { position: absolute; left: 0; top: 0; width: 40%; height: 100%; z-index: 5; cursor: pointer; }
+  .slider-tap-right { position: absolute; right: 0; top: 0; width: 40%; height: 100%; z-index: 5; cursor: pointer; }
   .slider-dots { display: flex; justify-content: center; gap: 5px; padding: 10px 0; }
   .dot { width: 5px; height: 5px; border-radius: 50%; background: #444; transition: all 0.2s; }
   .dot.active { background: var(--white); width: 16px; border-radius: 3px; }
@@ -146,10 +165,13 @@
 
 <div class="header">
   <div class="logo"><span class="logo-floop">FLOOP</span><span class="logo-shop">SHOP</span></div>
-  <button class="cart-btn" onclick="openCart()">
-    🛒
-    <div class="cart-count" id="cartCount">0</div>
-  </button>
+  <div class="header-btns">
+    <a class="channel-btn" href="https://t.me/floopshop" target="_blank">✈️</a>
+    <button class="cart-btn" onclick="openCart()">
+      🛒
+      <div class="cart-count" id="cartCount">0</div>
+    </button>
+  </div>
 </div>
 
 <div class="search-wrap">
@@ -157,12 +179,28 @@
     <span class="search-icon">🔍</span>
     <input class="search-input" type="text" placeholder="Поиск..." id="searchInput" oninput="filterProducts()">
   </div>
-  <select class="brand-select" id="brandSelect" onchange="filterProducts()">
-    <option value="">Все бренды</option>
-  </select>
+  <button class="sort-btn" id="sortBtn" onclick="toggleSortDropdown()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="9" y2="18"/>
+      <polyline points="17 15 20 18 17 21"/>
+    </svg>
+  </button>
+  <div class="sort-dropdown" id="sortDropdown">
+    <div class="sort-option" onclick="setSort('az')">🔤 От А до Я</div>
+    <div class="sort-option" onclick="setSort('za')">🔤 От Я до А</div>
+    <div class="sort-option" onclick="setSort('price_asc')">💰 Сначала дешевле</div>
+    <div class="sort-option" onclick="setSort('price_desc')">💰 Сначала дороже</div>
+  </div>
 </div>
 
-<div class="filters" id="filtersRow"></div>
+<div class="filters-wrap">
+  <div class="main-tabs">
+    <button class="tab-btn active" onclick="setTab('sneakers')">👟 Кроссовки</button>
+    <button class="tab-btn" onclick="setTab('clothes')">👕 Одежда</button>
+  </div>
+  <div class="sub-filters" id="subFilters"></div>
+</div>
+
 <div class="stats" id="stats"></div>
 <div id="mainContent">
   <div class="loading"><div class="spinner"></div><div class="loading-text">ЗАГРУЖАЕМ КАТАЛОГ</div></div>
@@ -196,8 +234,13 @@ const SHEET_NAME = 'Каталог';
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
 const WEBHOOK = 'https://floopshop-bot-production.up.railway.app/order';
 
+// Категории которые относятся к "Кроссовки"
+const SNEAKER_CATEGORIES = ['Кроссовки', 'Кеды', 'Сандали', 'Ботинки', 'Слипоны', 'Мюли'];
+
 let allProducts = [], groupedProducts = [], filtered = [];
-let activeFilter = 'Все', activeBrand = '';
+let activeTab = 'sneakers';
+let activeSubFilter = 'Все';
+let activeSort = '';
 let currentGroup = null, selectedSize = null, sliderIndex = 0;
 let cart = [];
 
@@ -229,42 +272,97 @@ async function loadData() {
         name: p.name, brand: p.brand, category: p.category,
         condition: p.condition, description: p.description,
         photos: p.photos, price: p.price, salePrice: p.salePrice,
-        colorway: p.colorway,
-        article: p.article,
+        colorway: p.colorway, article: p.article,
         sizes: []
       };
       groups[groupKey].sizes.push({ size: p.size, price: p.price, salePrice: p.salePrice });
     });
     groupedProducts = Object.values(groups);
 
-    renderFilters();
-    renderBrands();
+    renderSubFilters();
     filterProducts();
   } catch(e) {
     document.getElementById('mainContent').innerHTML = `<div class="loading"><div class="loading-text">ОШИБКА ЗАГРУЗКИ</div></div>`;
   }
 }
 
-function renderBrands() {
-  const brands = [...new Set(allProducts.map(p => p.brand).filter(Boolean))].sort();
-  document.getElementById('brandSelect').innerHTML = `<option value="">Все бренды</option>` + brands.map(b => `<option value="${b}">${b}</option>`).join('');
+function isSneaker(p) {
+  return SNEAKER_CATEGORIES.includes(p.category);
 }
 
-function renderFilters() {
-  const cats = ['Все', ...new Set(allProducts.map(p => p.category).filter(Boolean))];
-  document.getElementById('filtersRow').innerHTML = cats.map(c => `<button class="filter-btn ${c === activeFilter ? 'active' : ''}" onclick="setFilter('${c}')">${c}</button>`).join('');
+function setTab(tab) {
+  activeTab = tab;
+  activeSubFilter = 'Все';
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', (i === 0 && tab === 'sneakers') || (i === 1 && tab === 'clothes'));
+  });
+  renderSubFilters();
+  filterProducts();
 }
 
-function setFilter(cat) { activeFilter = cat; renderFilters(); filterProducts(); }
+function renderSubFilters() {
+  let items = [];
+  if (activeTab === 'sneakers') {
+    const brands = [...new Set(groupedProducts.filter(isSneaker).map(p => p.brand).filter(Boolean))].sort();
+    items = ['Все', ...brands];
+  } else {
+    const cats = [...new Set(groupedProducts.filter(p => !isSneaker(p)).map(p => p.category).filter(Boolean))].sort();
+    items = ['Все', ...cats];
+  }
+  document.getElementById('subFilters').innerHTML = items.map(b =>
+    `<button class="filter-btn ${b === activeSubFilter ? 'active' : ''}" onclick="setSubFilter('${b}')">${b}</button>`
+  ).join('');
+}
+
+function setSubFilter(val) {
+  activeSubFilter = val;
+  renderSubFilters();
+  filterProducts();
+}
+
+function toggleSortDropdown() {
+  const dd = document.getElementById('sortDropdown');
+  dd.classList.toggle('open');
+  document.getElementById('sortBtn').classList.toggle('active', dd.classList.contains('open'));
+}
+
+function setSort(val) {
+  activeSort = val;
+  document.getElementById('sortDropdown').classList.remove('open');
+  document.getElementById('sortBtn').classList.remove('active');
+  document.querySelectorAll('.sort-option').forEach((el, i) => {
+    el.classList.toggle('selected', ['az','za','price_asc','price_desc'][i] === val);
+  });
+  filterProducts();
+}
+
+document.addEventListener('click', e => {
+  const dd = document.getElementById('sortDropdown');
+  if (dd && dd.classList.contains('open') && !e.target.closest('.sort-btn') && !e.target.closest('.sort-dropdown')) {
+    dd.classList.remove('open');
+    document.getElementById('sortBtn').classList.remove('active');
+  }
+});
+
+function getPrice(p) {
+  return p.salePrice && Number(p.salePrice) > 0 ? Number(p.salePrice) : Number(p.price);
+}
 
 function filterProducts() {
   const q = document.getElementById('searchInput').value.toLowerCase();
-  activeBrand = document.getElementById('brandSelect').value;
-  filtered = groupedProducts.filter(p =>
-    (activeFilter === 'Все' || p.category === activeFilter) &&
-    (!activeBrand || p.brand === activeBrand) &&
-    (!q || p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q))
-  );
+  filtered = groupedProducts.filter(p => {
+    const inTab = activeTab === 'sneakers' ? isSneaker(p) : !isSneaker(p);
+    const inSub = activeSubFilter === 'Все' ||
+      (activeTab === 'sneakers' ? p.brand === activeSubFilter : p.category === activeSubFilter);
+    const inSearch = !q || p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q) || (p.colorway || '').toLowerCase().includes(q);
+    return inTab && inSub && inSearch;
+  });
+
+  if (activeSort === 'az') filtered.sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+  else if (activeSort === 'za') filtered.sort((a, b) => b.name.localeCompare(a.name, 'ru'));
+  else if (activeSort === 'price_asc') filtered.sort((a, b) => getPrice(a) - getPrice(b));
+  else if (activeSort === 'price_desc') filtered.sort((a, b) => getPrice(b) - getPrice(a));
+
   renderGrid();
 }
 
@@ -283,15 +381,15 @@ function renderGrid() {
         ${hasSale ? `<div class="sale-badge">SALE</div>` : ''}
       </div>
       <div class="card-body">
+        <div class="card-price-top">
+          <span class="card-price ${hasSale ? 'sale' : ''}">${displayPrice.toLocaleString('ru')} ₽</span>
+          ${hasSale ? `<span class="card-price-old">${Number(p.price).toLocaleString('ru')} ₽</span>` : ''}
+        </div>
         <div class="card-brand">${p.brand}</div>
         <div class="card-name">${p.name}</div>
         ${p.colorway ? `<div class="card-colorway">${p.colorway}</div>` : ''}
         <div class="card-condition">${p.condition}</div>
         <div class="card-sizes">${p.sizes.map(s => `<span class="size-pill">${s.size}</span>`).join('')}</div>
-        <div class="card-meta">
-          <span class="card-price ${hasSale ? 'sale' : ''}">${displayPrice.toLocaleString('ru')} ₽</span>
-          ${hasSale ? `<span class="card-price-old">${Number(p.price).toLocaleString('ru')} ₽</span>` : ''}
-        </div>
       </div>
     </div>`;
   }).join('')}</div>`;
@@ -309,11 +407,15 @@ function openModal(index) {
 function renderModal(showForm = false, showSuccess = false) {
   const p = currentGroup;
   const hasSale = p.salePrice && Number(p.salePrice) > 0;
-  const inCart = cart.some(c => c.group.name === p.name && c.size === (selectedSize?.size || ''));
+  const inCart = cart.some(c => c.group.name === p.name && c.colorway === p.colorway && c.size === (selectedSize?.size || ''));
+  const photos = p.photos;
   document.getElementById('modalBody').innerHTML = `
-    ${p.photos.length > 0 ? `
-    <div class="slider"><div class="slider-track" id="sliderTrack">${p.photos.map(src => `<img class="slider-img" src="${src}" alt="${p.name}">`).join('')}</div></div>
-    <div class="slider-dots">${p.photos.map((_, i) => `<div class="dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>`).join('')}</div>` : ''}
+    ${photos.length > 0 ? `
+    <div class="slider">
+      <div class="slider-track" id="sliderTrack">${photos.map(src => `<img class="slider-img" src="${src}" alt="${p.name}">`).join('')}</div>
+      ${photos.length > 1 ? `<div class="slider-tap-left" onclick="slidePrev()"></div><div class="slider-tap-right" onclick="slideNext()"></div>` : ''}
+    </div>
+    <div class="slider-dots">${photos.map((_, i) => `<div class="dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>`).join('')}</div>` : ''}
     <div class="modal-content">
       <div class="modal-brand">${p.brand}</div>
       <div class="modal-name">${p.name}</div>
@@ -351,15 +453,36 @@ function renderModal(showForm = false, showSuccess = false) {
   if (showForm) setTimeout(() => document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth' }), 100);
 }
 
+function goSlide(i) {
+  if (!currentGroup) return;
+  sliderIndex = Math.max(0, Math.min(i, currentGroup.photos.length - 1));
+  const track = document.getElementById('sliderTrack');
+  if (track) track.style.transform = `translateX(-${sliderIndex * 100}%)`;
+  document.querySelectorAll('.dot').forEach((d, j) => d.classList.toggle('active', j === sliderIndex));
+}
+function slideNext() { goSlide(sliderIndex + 1); }
+function slidePrev() { goSlide(sliderIndex - 1); }
+
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+document.addEventListener('touchend', e => {
+  if (!currentGroup) return;
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) {
+    if (diff > 0) slideNext();
+    else slidePrev();
+  }
+});
+
 function selectSize(size) { selectedSize = currentGroup.sizes.find(s => s.size === size); renderModal(); }
 
 function toggleCart() {
   const p = currentGroup;
   const size = selectedSize?.size || (p.sizes.length === 1 ? p.sizes[0].size : null);
   if (!size) { alert('Выберите размер'); return; }
-  const idx = cart.findIndex(c => c.group.name === p.name && c.size === size);
+  const idx = cart.findIndex(c => c.group.name === p.name && c.colorway === p.colorway && c.size === size);
   if (idx >= 0) cart.splice(idx, 1);
-  else cart.push({ group: p, size, price: p.price, salePrice: p.salePrice });
+  else cart.push({ group: p, size, colorway: p.colorway, price: p.price, salePrice: p.salePrice });
   updateCartCount();
   renderModal();
 }
@@ -387,7 +510,7 @@ function renderCart(showForm = false, showSuccess = false) {
         ${c.group.photos[0] ? `<img class="cart-item-img" src="${c.group.photos[0]}" alt="">` : '<div class="cart-item-img"></div>'}
         <div class="cart-item-info">
           <div class="cart-item-name">${c.group.name}</div>
-          <div class="cart-item-meta">${c.group.brand} · Размер ${c.size}</div>
+          <div class="cart-item-meta">${c.group.brand} · Размер ${c.size}${c.colorway ? ' · ' + c.colorway : ''}</div>
           <div class="cart-item-price">${price.toLocaleString('ru')} ₽</div>
         </div>
         <button class="cart-item-remove" onclick="removeFromCart(${i})">✕</button>
@@ -411,7 +534,6 @@ function renderCart(showForm = false, showSuccess = false) {
 }
 
 function removeFromCart(i) { cart.splice(i, 1); updateCartCount(); renderCart(); }
-
 function closeCartModal(e) { if (e.target === document.getElementById('cartModal')) closeCartDirect(); }
 function closeCartDirect() { document.getElementById('cartModal').classList.remove('open'); document.body.style.overflow = ''; }
 
@@ -420,28 +542,11 @@ function submitCartOrder() {
   const contact = document.getElementById('cartContact').value.trim();
   if (!name || !contact) { alert('Заполните имя и контакт'); return; }
   const username = contact.replace('@', '').trim();
-  const items = cart.map(c => { const p = c.salePrice && Number(c.salePrice) > 0 ? Number(c.salePrice) : Number(c.price); return `• ${c.group.name} (${c.size}) — ${p.toLocaleString('ru')} ₽`; }).join('\n');
+  const items = cart.map(c => { const p = c.salePrice && Number(c.salePrice) > 0 ? Number(c.salePrice) : Number(c.price); return `• ${c.group.name}${c.colorway ? ' ' + c.colorway : ''} (${c.size}) — ${p.toLocaleString('ru')} ₽`; }).join('\n');
   const total = cart.reduce((s, c) => s + (c.salePrice && Number(c.salePrice) > 0 ? Number(c.salePrice) : Number(c.price)), 0);
   fetch(WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, contact, username, comment: document.getElementById('cartComment').value || '—', product: `КОРЗИНА (${cart.length} товара):\n${items}`, size: '—', price: total.toLocaleString('ru') }) }).catch(() => {});
   cart = []; updateCartCount(); renderCart(false, true);
 }
-
-function goSlide(i) {
-  sliderIndex = i;
-  document.getElementById('sliderTrack').style.transform = `translateX(-${i*100}%)`;
-  document.querySelectorAll('.dot').forEach((d, j) => d.classList.toggle('active', j === i));
-}
-
-let touchStartX = 0;
-document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
-document.addEventListener('touchend', e => {
-  if (!currentGroup) return;
-  const diff = touchStartX - e.changedTouches[0].clientX;
-  if (Math.abs(diff) > 50) {
-    if (diff > 0 && sliderIndex < currentGroup.photos.length - 1) goSlide(sliderIndex + 1);
-    if (diff < 0 && sliderIndex > 0) goSlide(sliderIndex - 1);
-  }
-});
 
 function closeModal(e) { if (e.target === document.getElementById('modal')) closeModalDirect(); }
 function closeModalDirect() { document.getElementById('modal').classList.remove('open'); document.body.style.overflow = ''; currentGroup = null; }
@@ -454,7 +559,8 @@ function submitOrder() {
   const size = selectedSize?.size || p.sizes[0]?.size || '—';
   const price = p.salePrice && Number(p.salePrice) > 0 ? Number(p.salePrice) : Number(p.price);
   const username = contact.replace('@', '').trim();
-  fetch(WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, contact, username, comment: document.getElementById('orderComment').value || '—', product: p.name, size, price: price.toLocaleString('ru') }) }).catch(() => {});
+  const productName = p.colorway ? `${p.name} ${p.colorway}` : p.name;
+  fetch(WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, contact, username, comment: document.getElementById('orderComment').value || '—', product: productName, size, price: price.toLocaleString('ru') }) }).catch(() => {});
   renderModal(false, true);
 }
 
