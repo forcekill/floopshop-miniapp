@@ -52,7 +52,8 @@
   .sale-badge { position: absolute; top: 8px; left: 8px; background: var(--red); color: white; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 6px; }
   .card-body { padding: 10px; }
   .card-brand { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-  .card-name { font-size: 13px; font-weight: 600; color: var(--white); margin: 3px 0; line-height: 1.3; }
+  .card-name { font-size: 13px; font-weight: 600; color: var(--white); margin: 3px 0 1px; line-height: 1.3; }
+  .card-colorway { font-size: 11px; color: var(--text-muted); margin-bottom: 3px; line-height: 1.3; }
   .card-condition { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
   .card-sizes { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
   .size-pill { font-size: 10px; background: var(--gray2); color: var(--text-muted); padding: 2px 6px; border-radius: 5px; font-weight: 600; }
@@ -78,7 +79,9 @@
 
   .modal-content { padding: 16px 20px; }
   .modal-brand { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); }
-  .modal-name { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 1px; color: var(--white); margin: 4px 0 8px; line-height: 1.1; }
+  .modal-name { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 1px; color: var(--white); margin: 4px 0 4px; line-height: 1.1; }
+  .modal-colorway { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; letter-spacing: 0.3px; line-height: 1.4; }
+  .modal-article { font-size: 11px; color: #555; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 12px; }
   .modal-tags { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
   .tag { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 8px; background: var(--gray2); color: var(--text-muted); }
   .tag.accent { background: rgba(255,255,255,0.1); color: var(--white); }
@@ -212,6 +215,8 @@ async function loadData() {
         category: get('Категория'), name: get('Название'), brand: get('Бренд'),
         size: String(get('Размер')), condition: get('Состояние'),
         description: get('Описание'), price: get('Цена'), salePrice: get('Скидка') || '',
+        colorway: get('Colorway') || '',
+        article: get('Артикул') || '',
         photos: [get('Главное фото/1 фото'), get('Слева-направо/2 фото'), get('Фото спереди/3 фото'), get('Фото сзади/4 фото'), get('Фото подошвы(сверху)/5 фото')].filter(Boolean),
         in_stock: get('В наличии') !== false,
       };
@@ -219,7 +224,14 @@ async function loadData() {
 
     const groups = {};
     allProducts.forEach(p => {
-      if (!groups[p.name]) groups[p.name] = { name: p.name, brand: p.brand, category: p.category, condition: p.condition, description: p.description, photos: p.photos, price: p.price, salePrice: p.salePrice, sizes: [] };
+      if (!groups[p.name]) groups[p.name] = {
+        name: p.name, brand: p.brand, category: p.category,
+        condition: p.condition, description: p.description,
+        photos: p.photos, price: p.price, salePrice: p.salePrice,
+        colorway: p.colorway,
+        article: p.article,
+        sizes: []
+      };
       groups[p.name].sizes.push({ size: p.size, price: p.price, salePrice: p.salePrice });
     });
     groupedProducts = Object.values(groups);
@@ -272,6 +284,7 @@ function renderGrid() {
       <div class="card-body">
         <div class="card-brand">${p.brand}</div>
         <div class="card-name">${p.name}</div>
+        ${p.colorway ? `<div class="card-colorway">${p.colorway}</div>` : ''}
         <div class="card-condition">${p.condition}</div>
         <div class="card-sizes">${p.sizes.map(s => `<span class="size-pill">${s.size}</span>`).join('')}</div>
         <div class="card-meta">
@@ -303,6 +316,8 @@ function renderModal(showForm = false, showSuccess = false) {
     <div class="modal-content">
       <div class="modal-brand">${p.brand}</div>
       <div class="modal-name">${p.name}</div>
+      ${p.colorway ? `<div class="modal-colorway">${p.colorway}</div>` : ''}
+      ${p.article ? `<div class="modal-article">Арт. ${p.article}</div>` : ''}
       <div class="modal-tags"><span class="tag">${p.condition}</span><span class="tag accent">${p.category}</span></div>
       ${p.description ? `<div class="modal-desc">${p.description}</div>` : ''}
       ${p.sizes.length > 1 ? `
