@@ -84,7 +84,7 @@
   .modal { background: var(--gray); border-radius: 24px 24px 0 0; width: 100%; max-height: 92vh; overflow-y: auto; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); padding-bottom: 40px; }
   .modal-overlay.open .modal { transform: translateY(0); }
   .modal-handle { width: 40px; height: 4px; background: #444; border-radius: 2px; margin: 12px auto 0; }
-  .modal-close { position: absolute; top: 8px; left: 8px; width: 32px; height: 32px; background: rgba(10,10,10,0.75); border: none; border-radius: 50%; color: var(--white); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 20; backdrop-filter: blur(4px); }
+  .modal-close { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; background: rgba(10,10,10,0.75); border: none; border-radius: 50%; color: var(--white); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 20; backdrop-filter: blur(4px); }
   .modal-header { position: relative; padding: 8px 0 0; }
   .modal-price-below { display: flex; align-items: baseline; gap: 8px; padding: 14px 20px 0; }
 
@@ -167,7 +167,7 @@
 <div class="header">
   <div class="logo"><span class="logo-floop">FLOOP</span><span class="logo-shop">SHOP</span></div>
   <div class="header-btns">
-    <a class="channel-btn" href="https://t.me/floopname" target="_blank">✈️</a>
+    <a class="channel-btn" href="https://t.me/floopshop" target="_blank">✈️</a>
     <button class="cart-btn" onclick="openCart()">
       🛒
       <div class="cart-count" id="cartCount">0</div>
@@ -189,8 +189,8 @@
   <div class="sort-dropdown" id="sortDropdown">
     <div class="sort-option" onclick="setSort('az')">🔤 От А до Я</div>
     <div class="sort-option" onclick="setSort('za')">🔤 От Я до А</div>
-    <div class="sort-option" onclick="setSort('price_asc')">💰По возрастанию цены</div>
-    <div class="sort-option" onclick="setSort('price_desc')">💰По убыванию цены</div>
+    <div class="sort-option" onclick="setSort('price_asc')">💰 Сначала дешевле</div>
+    <div class="sort-option" onclick="setSort('price_desc')">💰 Сначала дороже</div>
   </div>
 </div>
 
@@ -256,7 +256,7 @@ async function loadData() {
       const get = l => { const i = cols.indexOf(l); return i >= 0 && row.c[i] ? row.c[i].v : ''; };
       return {
         category: get('Категория'), name: get('Название'), brand: get('Бренд'),
-        size: String(get('Размер') || '').trim(), condition: get('Состояние'),
+        size: (() => { const i = cols.indexOf('Размер'); const v = i >= 0 && row.c[i] ? row.c[i].v : null; return v !== null ? String(v).trim() : ''; })(), condition: get('Состояние'),
         description: get('Описание'), price: get('Цена'), salePrice: get('Скидка') || '',
         colorway: get('Colorway') || '',
         article: get('Артикул') || '',
