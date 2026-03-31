@@ -441,7 +441,7 @@ function renderModal(showForm = false, showSuccess = false) {
     <div class="order-form" id="orderForm" style="display:${showForm?'block':'none'}">
       <h3>ОСТАВИТЬ ЗАЯВКУ</h3>
       <div class="form-group"><label class="form-label">Имя</label><input class="form-input" id="orderName" placeholder="Как к вам обращаться?"></div>
-      <div class="form-group"><label class="form-label">Ваш Telegram</label><input class="form-input" id="orderContact" placeholder="@username"></div>
+      <div class="form-group"><label class="form-label">Ваш Telegram (обязательно с @)</label><input class="form-input" id="orderContact" placeholder="@username"></div>
       <div class="form-group"><label class="form-label">Комментарий</label><textarea class="form-textarea" id="orderComment" placeholder="Вопросы, пожелания..."></textarea></div>
       <button class="submit-btn" onclick="submitOrder()">ОТПРАВИТЬ ЗАЯВКУ</button>
     </div>
@@ -522,7 +522,7 @@ function renderCart(showForm = false, showSuccess = false) {
     <div class="order-form" id="cartOrderForm" style="display:${showForm?'block':'none'}">
       <h3>ОСТАВИТЬ ЗАЯВКУ</h3>
       <div class="form-group"><label class="form-label">Имя</label><input class="form-input" id="cartName" placeholder="Как к вам обращаться?"></div>
-      <div class="form-group"><label class="form-label">Ваш Telegram</label><input class="form-input" id="cartContact" placeholder="@username"></div>
+      <div class="form-group"><label class="form-label">Ваш Telegram (обязательно с @)</label><input class="form-input" id="cartContact" placeholder="@username"></div>
       <div class="form-group"><label class="form-label">Комментарий</label><textarea class="form-textarea" id="cartComment" placeholder="Вопросы, пожелания..."></textarea></div>
       <button class="submit-btn" onclick="submitCartOrder()">ОТПРАВИТЬ ЗАЯВКУ</button>
     </div>
