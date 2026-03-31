@@ -182,7 +182,7 @@
 <div class="header">
   <div class="logo"><span class="logo-floop">FLOOP</span><span class="logo-shop">SHOP</span></div>
   <div class="header-btns">
-    <a class="channel-btn" href="https://t.me/floopshop" target="_blank">✈️</a>
+    <a class="channel-btn" href="https://t.me/floopname" target="_blank">✈️</a>
     <button class="cart-btn" onclick="openCart()">
       🛒
       <div class="cart-count" id="cartCount">0</div>
@@ -204,8 +204,8 @@
   <div class="sort-dropdown" id="sortDropdown">
     <div class="sort-option" onclick="setSort('az')">🔤 От А до Я</div>
     <div class="sort-option" onclick="setSort('za')">🔤 От Я до А</div>
-    <div class="sort-option" onclick="setSort('price_asc')">💰 Сначала дешевле</div>
-    <div class="sort-option" onclick="setSort('price_desc')">💰 Сначала дороже</div>
+    <div class="sort-option" onclick="setSort('price_asc')">💰 По возрастанию цены</div>
+    <div class="sort-option" onclick="setSort('price_desc')">💰 По убыванию цены</div>
   </div>
 </div>
 
@@ -244,7 +244,7 @@
 </div>
 
 <script>
-const SHEET_ID = '1kPm7LEZYEHJLyA_UUDQ_Lh3Z4nhXhnNHWLR5wSz7D7U';
+const SHEET_ID = '1FX0EHJZzu3fDmZXu8cCVYciJvAZ9e8DLwPyIOTFWkr8';
 const SHEET_NAME = 'Каталог';
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
 const WEBHOOK = 'https://floopshop-bot-production.up.railway.app/order';
@@ -449,7 +449,7 @@ function renderModal(showForm = false, showSuccess = false) {
         <div class="size-buttons">${p.sizes.map(s => `<button class="size-btn ${selectedSize?.size===s.size?'selected':''}" onclick="selectSize('${s.size}')">${s.size}</button>`).join('')}</div>
       </div>` : `<div style="margin-bottom:12px"><span class="tag">Размер: ${p.sizes[0]?.size}</span></div>`}
       <div style="margin-bottom:12px">
-        <button class="size-chart-btn" onclick="document.getElementById('sizeChartOverlay').classList.add('open')">📏 Таблица размеров</button>
+        <button class="size-chart-btn" onclick="openSizeChart(currentGroup ? currentGroup.category : '')">📏 Таблица размеров</button>
       </div>
       <div class="modal-btns">
         <button class="order-btn" onclick="renderModal(true)">ОФОРМИТЬ ЗАЯВКУ</button>
@@ -583,6 +583,13 @@ function submitOrder() {
   renderModal(false, true);
 }
 
+function openSizeChart(category) {
+  var isShoes = ['Кроссовки','Кеды','Сандали','Ботинки','Слипоны','Мюли'].includes(category);
+  document.getElementById('sizeChartShoes').style.display = isShoes ? 'table' : 'none';
+  document.getElementById('sizeChartClothes').style.display = isShoes ? 'none' : 'table';
+  document.getElementById('sizeChartOverlay').classList.add('open');
+}
+
 function closeSizeChart(e) {
   if (e.target === document.getElementById('sizeChartOverlay')) {
     document.getElementById('sizeChartOverlay').classList.remove('open');
@@ -591,14 +598,15 @@ function closeSizeChart(e) {
 
 loadData();
 </script>
-<!-- SIZE CHART -->
+<!-- SIZE CHART SHOES -->
 <div class="size-chart-overlay" id="sizeChartOverlay" onclick="closeSizeChart(event)">
   <div class="size-chart-box">
     <div class="size-chart-header">
       <div class="size-chart-title">ТАБЛИЦА РАЗМЕРОВ</div>
       <button class="size-chart-close" onclick="document.getElementById('sizeChartOverlay').classList.remove('open')">✕</button>
     </div>
-    <table class="size-chart-table">
+    <!-- ОБУВЬ -->
+    <table class="size-chart-table" id="sizeChartShoes">
       <thead>
         <tr>
           <th>EU</th>
@@ -634,7 +642,30 @@ loadData();
         <tr><td>46</td><td>12.5</td><td>14</td><td>29.5</td><td>30</td></tr>
       </tbody>
     </table>
+    <!-- ОДЕЖДА -->
+    <table class="size-chart-table" id="sizeChartClothes" style="display:none">
+      <thead>
+        <tr>
+          <th>Размер</th>
+          <th>Грудь (см)</th>
+          <th>Талия (см)</th>
+          <th>Бёдра (см)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>XS</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>S</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>M</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>L</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>XL</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>XXL</td><td>-</td><td>-</td><td>-</td></tr>
+      </tbody>
+    </table>
   </div>
+</div>
+
+</body>
+</html>
 </div>
 
 </body>
