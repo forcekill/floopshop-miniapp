@@ -268,7 +268,7 @@ async function loadData() {
 
     const groups = {};
     allProducts.forEach(p => {
-      const groupKey = p.name + '||' + (p.colorway || '');
+      const groupKey = p.name.trim() + '||' + (p.colorway || '').trim();
       if (!groups[groupKey]) groups[groupKey] = {
         name: p.name, brand: p.brand, category: p.category,
         condition: p.condition, description: p.description,
