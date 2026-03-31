@@ -257,7 +257,7 @@ async function loadData() {
       const get = l => { const i = cols.indexOf(l); return i >= 0 && row.c[i] ? row.c[i].v : ''; };
       return {
         category: get('Категория'), name: get('Название'), brand: get('Бренд'),
-        size: (() => { const i = cols.indexOf('Размер'); if (i < 0 || !row.c[i]) return ''; const v = row.c[i].v; return (v !== null && v !== undefined) ? String(v).trim() : ''; })(), condition: get('Состояние'),
+        size: (() => { const i = cols.indexOf('Размер'); if (i >= 0 && row.c[i] && row.c[i].v !== null && row.c[i].v !== undefined) return String(row.c[i].v).trim(); const i2 = cols.indexOf('Размер одежды'); if (i2 >= 0 && row.c[i2] && row.c[i2].v) return String(row.c[i2].v).trim(); return ''; })(), condition: get('Состояние'),
         description: get('Описание'), price: get('Цена'), salePrice: get('Скидка') || '',
         colorway: get('Colorway') || '',
         article: get('Артикул') || '',
