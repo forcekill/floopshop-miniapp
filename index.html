@@ -212,6 +212,7 @@
   <div class="modal">
     <div class="modal-header">
       <div class="modal-handle"></div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
     </div>
     <div id="modalBody"></div>
   </div>
@@ -256,7 +257,7 @@ async function loadData() {
       const get = l => { const i = cols.indexOf(l); return i >= 0 && row.c[i] ? row.c[i].v : ''; };
       return {
         category: get('Категория'), name: get('Название'), brand: get('Бренд'),
-        size: (() => { const i = cols.indexOf('Размер'); const v = i >= 0 && row.c[i] ? row.c[i].v : null; return v !== null ? String(v).trim() : ''; })(), condition: get('Состояние'),
+        size: (() => { const i = cols.indexOf('Размер'); if (i < 0 || !row.c[i]) return ''; const v = row.c[i].v; return (v !== null && v !== undefined) ? String(v).trim() : ''; })(), condition: get('Состояние'),
         description: get('Описание'), price: get('Цена'), salePrice: get('Скидка') || '',
         colorway: get('Colorway') || '',
         article: get('Артикул') || '',
@@ -412,11 +413,10 @@ function renderModal(showForm = false, showSuccess = false) {
   document.getElementById('modalBody').innerHTML = `
     ${photos.length > 0 ? `
     <div class="slider">
-      <button class="modal-close" onclick="closeModalDirect()">✕</button>
       <div class="slider-track" id="sliderTrack">${photos.map(src => `<img class="slider-img" src="${src}" alt="${p.name}">`).join('')}</div>
       ${photos.length > 1 ? `<div class="slider-tap-left" onclick="slidePrev()"></div><div class="slider-tap-right" onclick="slideNext()"></div>` : ''}
     </div>
-    <div class="slider-dots">${photos.map((_, i) => `<div class="dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>`).join('')}</div>` : '<button class="modal-close" style="position:relative;margin:8px 8px 0" onclick="closeModalDirect()">✕</button>'}
+    <div class="slider-dots">${photos.map((_, i) => `<div class="dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>`).join('')}</div>` : ''}
     <div class="modal-price-below">
       <div class="modal-price ${hasSale?'sale':''}">${hasSale ? Number(p.salePrice).toLocaleString('ru') : Number(p.price).toLocaleString('ru')} ₽</div>
       ${hasSale ? `<div class="modal-price-old">${Number(p.price).toLocaleString('ru')} ₽</div>` : ''}
