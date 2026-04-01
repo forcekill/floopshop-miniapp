@@ -249,6 +249,11 @@
 <script>
 const SHEET_ID = '1FX0EHJZzu3fDmZXu8cCVYciJvAZ9e8DLwPyIOTFWkr8';
 const SHEET_NAME = 'Каталог';
+const SHEET_URL_SHOES = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent('Размеры обуви')}`;
+const SHEET_URL_CLOTHES = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent('Размеры одежды')}`;
+
+let sizeDataShoes = []; // [{brand, eu, us, uk, foot, insole}]
+let sizeDataClothes = []; // [{key, size, chest, length, sleeve}]
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
 const WEBHOOK = 'https://floopshop-bot-production.up.railway.app/order';
 
@@ -279,6 +284,7 @@ async function loadData() {
         colorway: get('Colorway') || '',
         article: get('Артикул') || '',
         material: get('Материал') || '',
+        sizeKey: get('Таблица размеров') || '',
         photos: [get('Главное фото/1 фото'), get('Слева-направо/2 фото'), get('Фото спереди/3 фото'), get('Фото сзади/4 фото'), get('Фото подошвы(сверху)/5 фото')].filter(Boolean),
         in_stock: get('В наличии') !== false,
       };
@@ -291,7 +297,7 @@ async function loadData() {
         name: p.name, brand: p.brand, category: p.category,
         condition: p.condition, description: p.description,
         photos: p.photos, price: p.price, salePrice: p.salePrice,
-        colorway: p.colorway, article: p.article, material: p.material,
+        colorway: p.colorway, article: p.article, material: p.material, sizeKey: p.sizeKey,
         sizes: []
       };
       groups[groupKey].sizes.push({ size: p.size, price: p.price, salePrice: p.salePrice });
@@ -300,6 +306,7 @@ async function loadData() {
 
     renderSubFilters();
     filterProducts();
+    loadSizeData();
   } catch(e) {
     document.getElementById('mainContent').innerHTML = `<div class="loading"><div class="loading-text">ОШИБКА ЗАГРУЗКИ</div></div>`;
   }
@@ -590,14 +597,69 @@ function submitOrder() {
 
 function openSizeChart(category) {
   var isShoes = ['Кроссовки','Кеды','Сандали','Ботинки','Слипоны','Мюли'].includes(category);
-  document.getElementById('sizeChartShoes').style.display = isShoes ? 'table' : 'none';
-  document.getElementById('sizeChartClothes').style.display = isShoes ? 'none' : 'table';
+  var p = currentGroup;
+
+  if (isShoes) {
+    // Filter by brand
+    var brand = p ? p.brand : '';
+    var rows = sizeDataShoes.filter(r => r.brand === brand);
+    var tbody = document.querySelector('#sizeChartShoes tbody');
+    if (rows.length > 0) {
+      tbody.innerHTML = rows.map(r => `<tr><td>${r.eu}</td><td>${r.us}</td><td>${r.uk}</td><td>${r.foot}</td><td>${r.insole}</td></tr>`).join('');
+    }
+    document.getElementById('sizeChartShoes').style.display = 'table';
+    document.getElementById('sizeChartClothes').style.display = 'none';
+  } else {
+    // Filter by key
+    var key = p ? (p.sizeKey || '') : '';
+    var rows = sizeDataClothes.filter(r => r.key === key);
+    var tbody = document.querySelector('#sizeChartClothes tbody');
+    if (rows.length > 0) {
+      tbody.innerHTML = rows.map(r => `<tr><td>${r.size}</td><td>${r.chest}</td><td>${r.length}</td><td>${r.sleeve}</td></tr>`).join('');
+    }
+    document.getElementById('sizeChartShoes').style.display = 'none';
+    document.getElementById('sizeChartClothes').style.display = 'table';
+  }
   document.getElementById('sizeChartOverlay').classList.add('open');
 }
 
 function closeSizeChart(e) {
   if (e.target === document.getElementById('sizeChartOverlay')) {
     document.getElementById('sizeChartOverlay').classList.remove('open');
+  }
+}
+
+async function loadSizeData() {
+  try {
+    // Load shoes sizes
+    const resShoes = await fetch(SHEET_URL_SHOES);
+    const textShoes = await resShoes.text();
+    const jsonShoes = JSON.parse(textShoes.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
+    const colsShoes = jsonShoes.table.cols.map(c => c.label);
+    sizeDataShoes = jsonShoes.table.rows.map(row => {
+      const get = l => { const i = colsShoes.indexOf(l); return i >= 0 && row.c[i] ? row.c[i].v : ''; };
+      return {
+        brand: String(get('Бренд')).trim(),
+        eu: get('EU'), us: get('US'), uk: get('UK'),
+        foot: get('Длина стопы(СМ)'), insole: get('Длина стельки(СМ)')
+      };
+    }).filter(r => r.brand);
+
+    // Load clothes sizes
+    const resClothes = await fetch(SHEET_URL_CLOTHES);
+    const textClothes = await resClothes.text();
+    const jsonClothes = JSON.parse(textClothes.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
+    const colsClothes = jsonClothes.table.cols.map(c => c.label);
+    sizeDataClothes = jsonClothes.table.rows.map(row => {
+      const get = l => { const i = colsClothes.indexOf(l); return i >= 0 && row.c[i] ? row.c[i].v : ''; };
+      return {
+        key: String(get('Ключ')).trim(),
+        size: get('Размер'), chest: get('Обхват груди'),
+        length: get('От ворота до низа'), sleeve: get('По шву рукава')
+      };
+    }).filter(r => r.key);
+  } catch(e) {
+    console.log('Size data load error:', e);
   }
 }
 
@@ -652,25 +714,14 @@ loadData();
       <thead>
         <tr>
           <th>Размер</th>
-          <th>Грудь (см)</th>
-          <th>Талия (см)</th>
-          <th>Бёдра (см)</th>
+          <th>Обхват груди</th>
+          <th>От ворота до низа</th>
+          <th>По шву рукава</th>
         </tr>
       </thead>
-      <tbody>
-        <tr><td>XS</td><td>-</td><td>-</td><td>-</td></tr>
-        <tr><td>S</td><td>-</td><td>-</td><td>-</td></tr>
-        <tr><td>M</td><td>-</td><td>-</td><td>-</td></tr>
-        <tr><td>L</td><td>-</td><td>-</td><td>-</td></tr>
-        <tr><td>XL</td><td>-</td><td>-</td><td>-</td></tr>
-        <tr><td>XXL</td><td>-</td><td>-</td><td>-</td></tr>
-      </tbody>
+      <tbody></tbody>
     </table>
   </div>
-</div>
-
-</body>
-</html>
 </div>
 
 </body>
