@@ -107,6 +107,9 @@
   .tag.accent { background: rgba(255,255,255,0.1); color: var(--white); }
   .modal-desc { font-size: 14px; line-height: 1.6; color: #aaa; margin-bottom: 16px; }
 
+  .modal-material { margin-bottom: 16px; }
+  .modal-material-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 4px; }
+  .modal-material-value { font-size: 14px; color: #aaa; line-height: 1.5; }
   .size-selector { margin-bottom: 16px; }
   .size-selector-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 8px; }
   .size-buttons { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -275,6 +278,7 @@ async function loadData() {
         description: get('Описание'), price: get('Цена'), salePrice: get('Скидка') || '',
         colorway: get('Colorway') || '',
         article: get('Артикул') || '',
+        material: get('Материал') || '',
         photos: [get('Главное фото/1 фото'), get('Слева-направо/2 фото'), get('Фото спереди/3 фото'), get('Фото сзади/4 фото'), get('Фото подошвы(сверху)/5 фото')].filter(Boolean),
         in_stock: get('В наличии') !== false,
       };
@@ -287,7 +291,7 @@ async function loadData() {
         name: p.name, brand: p.brand, category: p.category,
         condition: p.condition, description: p.description,
         photos: p.photos, price: p.price, salePrice: p.salePrice,
-        colorway: p.colorway, article: p.article,
+        colorway: p.colorway, article: p.article, material: p.material,
         sizes: []
       };
       groups[groupKey].sizes.push({ size: p.size, price: p.price, salePrice: p.salePrice });
@@ -443,6 +447,7 @@ function renderModal(showForm = false, showSuccess = false) {
       ${p.article ? `<div class="modal-article">Арт. ${p.article}</div>` : ''}
       <div class="modal-tags"><span class="tag">${p.condition}</span><span class="tag accent">${p.category}</span></div>
       ${p.description ? `<div class="modal-desc">${p.description}</div>` : ''}
+      ${p.material ? `<div class="modal-material"><div class="modal-material-label">Материал</div><div class="modal-material-value">${p.material}</div></div>` : ''}
       ${p.sizes.length > 1 ? `
       <div class="size-selector">
         <div class="size-selector-label">Выберите размер</div>
