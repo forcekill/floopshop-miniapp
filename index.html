@@ -300,7 +300,7 @@ async function loadData() {
         colorway: p.colorway, article: p.article, material: p.material, sizeKey: p.sizeKey,
         sizes: []
       };
-      groups[groupKey].sizes.push({ size: p.size, price: p.price, salePrice: p.salePrice });
+      if (!groups[groupKey].sizes.find(s => s.size === p.size)) { groups[groupKey].sizes.push({ size: p.size, price: p.price, salePrice: p.salePrice }); }
     });
     groupedProducts = Object.values(groups);
 
@@ -341,7 +341,8 @@ function renderSubFilters() {
 }
 
 function setSubFilter(val) {
-  activeSubFilter = (activeSubFilter === val && val !== 'Все') ? 'Все' : val;
+  val = val.trim();
+  activeSubFilter = (activeSubFilter.trim() === val && val !== 'Все') ? 'Все' : val;
   renderSubFilters();
   filterProducts();
 }
@@ -353,11 +354,11 @@ function toggleSortDropdown() {
 }
 
 function setSort(val) {
-  activeSort = val;
+  activeSort = (activeSort === val) ? '' : val;
   document.getElementById('sortDropdown').classList.remove('open');
   document.getElementById('sortBtn').classList.remove('active');
   document.querySelectorAll('.sort-option').forEach((el, i) => {
-    el.classList.toggle('selected', ['az','za','price_asc','price_desc'][i] === val);
+    el.classList.toggle('selected', ['az','za','price_asc','price_desc'][i] === activeSort);
   });
   filterProducts();
 }
