@@ -255,8 +255,8 @@
 <script>
 const SHEET_ID = '1FX0EHJZzu3fDmZXu8cCVYciJvAZ9e8DLwPyIOTFWkr8';
 const SHEET_NAME = 'Каталог';
-const SHEET_URL_SHOES = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent('Размеры обуви')}`;
-const SHEET_URL_CLOTHES = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent('Размеры одежды')}`;
+const SHEET_URL_SHOES = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&headers=1&sheet=${encodeURIComponent('Размеры обуви')}`;
+const SHEET_URL_CLOTHES = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&headers=1&sheet=${encodeURIComponent('Размеры одежды')}`;
 
 let sizeDataShoes = []; // [{brand, eu, us, uk, foot, insole}]
 let sizeDataClothes = []; // [{key, 'Размер': ..., 'Обхват груди': ...}]
