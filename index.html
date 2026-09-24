@@ -184,7 +184,7 @@
 <div class="header">
   <div class="logo"><span class="logo-floop">FLOOP</span><span class="logo-shop">SHOP</span></div>
   <div class="header-btns">
-    <a class="channel-btn" href="https://t.me/floopname" target="_blank">✈️</a>
+    <a class="channel-btn" href="https://t.me/floopshop_ru" target="_blank">✈️</a>
     <button class="cart-btn" onclick="openCart()">
       🛒
       <div class="cart-count" id="cartCount">0</div>
@@ -273,6 +273,16 @@ let activeSort = '';
 let currentGroup = null, selectedSize = null, sliderIndex = 0;
 let cart = [];
 
+const LETTER_SIZES = ['XXS','XS','S','M','L','XL','XXL','XXXL'];
+function compareSizes(a, b) {
+  const na = parseFloat(a), nb = parseFloat(b);
+  if (!isNaN(na) && !isNaN(nb)) return na - nb;
+  const ia = LETTER_SIZES.indexOf(String(a).toUpperCase().trim());
+  const ib = LETTER_SIZES.indexOf(String(b).toUpperCase().trim());
+  if (ia >= 0 && ib >= 0) return ia - ib;
+  return String(a).localeCompare(String(b));
+}
+
 async function loadData() {
   try {
     const res = await fetch(SHEET_URL);
@@ -309,6 +319,7 @@ async function loadData() {
       if (!groups[groupKey].sizes.find(s => s.size === p.size)) { groups[groupKey].sizes.push({ size: p.size, price: p.price, salePrice: p.salePrice }); }
     });
     groupedProducts = Object.values(groups);
+    groupedProducts.forEach(g => g.sizes.sort((a, b) => compareSizes(a.size, b.size)));
 
     renderSubFilters();
     filterProducts();
@@ -343,11 +354,7 @@ function renderSubFilters() {
 
   // Sizes
   const allSizes = [...new Set(items.flatMap(p => p.sizes.map(s => s.size)).filter(Boolean))];
-  const sortedSizes = allSizes.sort((a, b) => {
-    const na = parseFloat(a), nb = parseFloat(b);
-    if (!isNaN(na) && !isNaN(nb)) return na - nb;
-    return String(a).localeCompare(String(b));
-  });
+  const sortedSizes = allSizes.sort(compareSizes);
   const sizeSelect = document.getElementById('sizeSelect');
   const currentSize = sizeSelect.value;
   sizeSelect.innerHTML = `<option value="">Все размеры</option>` +
