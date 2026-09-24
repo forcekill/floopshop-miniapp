@@ -259,7 +259,8 @@ const SHEET_URL_SHOES = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz
 const SHEET_URL_CLOTHES = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent('Размеры одежды')}`;
 
 let sizeDataShoes = []; // [{brand, eu, us, uk, foot, insole}]
-let sizeDataClothes = []; // [{key, size, chest, length, sleeve}]
+let sizeDataClothes = []; // [{key, 'Размер': ..., 'Обхват груди': ...}]
+let sizeColsClothes = []; // названия колонок из листа
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
 const WEBHOOK = 'https://floopshop-bot-production.up.railway.app/order';
 
@@ -642,10 +643,13 @@ function openSizeChart(category) {
     // Filter by key
     var key = p ? (p.sizeKey || '') : '';
     var rows = sizeDataClothes.filter(r => r.key === key);
-    var tbody = document.querySelector('#sizeChartClothes tbody');
-    if (rows.length > 0) {
-      tbody.innerHTML = rows.map(r => `<tr><td>${r.size}</td><td>${r.chest}</td><td>${r.length}</td><td>${r.sleeve}</td></tr>`).join('');
-    }
+    rows.sort((a, b) => compareSizes(a['Размер'], b['Размер']));
+    var cols = sizeColsClothes.filter(c => rows.some(r => r[c]));
+    document.querySelector('#sizeChartClothes thead').innerHTML =
+      '<tr>' + cols.map(c => `<th>${c}</th>`).join('') + '</tr>';
+    document.querySelector('#sizeChartClothes tbody').innerHTML = rows.length
+      ? rows.map(r => '<tr>' + cols.map(c => `<td>${r[c] || '—'}</td>`).join('') + '</tr>').join('')
+      : '<tr><td>Таблица размеров пока не добавлена</td></tr>';
     document.getElementById('sizeChartShoes').style.display = 'none';
     document.getElementById('sizeChartClothes').style.display = 'table';
   }
@@ -675,17 +679,17 @@ async function loadSizeData() {
     }).filter(r => r.brand);
 
     // Load clothes sizes
-    const resClothes = await fetch(SHEET_URL_CLOTHES);
-    const textClothes = await resClothes.text();
-    const jsonClothes = JSON.parse(textClothes.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
-    const colsClothes = jsonClothes.table.cols.map(c => c.label);
+    const colsClothes = jsonClothes.table.cols.map(c => (c.label || '').trim());
+    sizeColsClothes = colsClothes.filter(l => l && l !== 'Ключ');
     sizeDataClothes = jsonClothes.table.rows.map(row => {
-      const get = l => { const i = colsClothes.indexOf(l); return i >= 0 && row.c[i] ? row.c[i].v : ''; };
-      return {
-        key: String(get('Ключ')).trim(),
-        size: get('Размер'), chest: get('Обхват груди'),
-        length: get('От ворота до низа'), sleeve: get('По шву рукава')
-      };
+      const r = {};
+      colsClothes.forEach((l, i) => {
+        if (!l) return;
+        const cell = row.c[i];
+        r[l] = cell && cell.v !== null && cell.v !== undefined ? String(cell.v).trim() : '';
+      });
+      r.key = r['Ключ'] || '';
+      return r;
     }).filter(r => r.key);
   } catch(e) {
     console.log('Size data load error:', e);
